@@ -2,6 +2,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../db/db_service.dart';
 import '../db/table_names.dart';
+import 'badge_evaluation_service.dart';
 
 class WorkoutCompletionService {
   WorkoutCompletionService._();
@@ -71,6 +72,10 @@ class WorkoutCompletionService {
         nowIso: nowIso ,
       );
     });
+
+    await BadgeEvaluationService.instance.evaluateAfterWorkoutCompleted(
+      workoutInstanceId: workoutInstanceId,
+    );
   }
 
   Future<bool> isBlockCompletedForWorkout({

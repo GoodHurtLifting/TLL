@@ -36,7 +36,31 @@ class DbService {
         }
       },
       onUpgrade: (db, oldVersion, newVersion) async {
-        // Add migrations here later.
+        if (oldVersion < 3) {
+          await db.execute('''
+            CREATE TABLE ${TableNames.badgeAwards} (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              badge_key TEXT NOT NULL,
+              user_id TEXT NOT NULL,
+              awarded_at TEXT NOT NULL,
+              source_type TEXT NOT NULL,
+              source_id TEXT NOT NULL,
+              block_instance_id INTEGER,
+              metadata_json TEXT,
+              FOREIGN KEY (block_instance_id) REFERENCES ${TableNames.blockInstances}(id)
+            )
+          ''');
+
+          await db.execute(
+            'CREATE INDEX idx_badge_awards_user_id ON ${TableNames.badgeAwards}(user_id)',
+          );
+          await db.execute(
+            'CREATE INDEX idx_badge_awards_block_instance_id ON ${TableNames.badgeAwards}(block_instance_id)',
+          );
+          await db.execute(
+            'CREATE INDEX idx_badge_awards_user_badge_key ON ${TableNames.badgeAwards}(user_id, badge_key)',
+          );
+        }
       },
     );
   }

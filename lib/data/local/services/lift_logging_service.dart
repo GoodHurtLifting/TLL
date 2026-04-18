@@ -2,6 +2,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../db/db_service.dart';
 import '../db/table_names.dart';
+import 'badge_evaluation_service.dart';
 
 class LiftLoggingService {
   LiftLoggingService._();
@@ -44,6 +45,11 @@ class LiftLoggingService {
         workoutInstanceId: workoutInstanceId,
       );
     });
+
+    await BadgeEvaluationService.instance.evaluateAfterSetLogged(
+      liftInstanceId: liftInstanceId,
+      setIndex: setIndex,
+    );
   }
 
   Future<void> deleteSetEntry({
