@@ -30,10 +30,13 @@ class BlockSummaryQueryService {
         blockInstanceId: blockInstanceId,
       );
 
+      final improvementMetrics = _buildImprovementMetrics(workoutRows);
+
       return {
         'block': block,
         'block_totals': blockTotals,
         'workouts': workoutRows,
+        'improvement_metrics': improvementMetrics,
       };
     });
   }
@@ -103,6 +106,7 @@ class BlockSummaryQueryService {
       '''
       SELECT
         wi.id,
+        wi.workout_template_id,
         wi.workout_slot_index,
         wi.week_index,
         wi.day_label,
@@ -121,5 +125,87 @@ class BlockSummaryQueryService {
     );
 
     return rows;
+  }
+
+  Map<String, Object?> _buildImprovementMetrics(
+      List<Map<String, Object?>> workouts,
+      ) {
+    if (workouts.isEmpty) {
+      return {
+        'best_workout_title': '-',
+        'best_workout_score': 0.0,
+        'highest_workload_title': '-',
+        'highest_workload': 0.0,
+        'most_improved_title': '-',
+        'most_improved_delta': 0.0,
+      };
+    }
+
+    Map<String, Object?> bestWorkout = workouts.first;
+    double bestWorkoutScore =
+    ((bestWorkout['workout_score'] as num?) ?? 0).toDouble();
+
+    Map<String, Object?> highestWorkloadWorkout = workouts.first;
+    double highestWorkoutWorkload =
+    ((highestWorkloadWorkout['total_workload'] as num?) ?? 0).toDouble();
+
+    final Map<int, List<Map<String, Object?>>> byTemplate = {};
+
+    for (final workout in workouts) {
+      final score = ((workout['workout_score'] as num?) ?? 0).toDouble();
+      final workload = ((workout['total_workload'] as num?) ?? 0).toDouble();
+      final templateId = workout['workout_template_id'] as int;
+
+      if (score > bestWorkoutScore) {
+        bestWorkout = workout;
+        bestWorkoutScore = score;
+      }
+
+      if (workload > highestWorkoutWorkload) {
+        highestWorkloadWorkout = workout;
+        highestWorkoutWorkload = workload;
+      }
+
+      byTemplate.putIfAbsent(templateId, () => []).add(workout);
+    }
+
+    String mostImprovedTitle = '-';
+    double mostImprovedDelta = 0.0;
+
+    for (final entry in byTemplate.entries) {
+      final templateWorkouts = entry.value;
+
+      if (templateWorkouts.length < 2) {
+        continue;
+      }
+
+      final firstScore =
+      ((templateWorkouts.first['workout_score'] as num?) ?? 0).toDouble();
+
+      double bestScoreInSeries = firstScore;
+      for (final workout in templateWorkouts.skip(1)) {
+        final score = ((workout['workout_score'] as num?) ?? 0).toDouble();
+        if (score > bestScoreInSeries) {
+          bestScoreInSeries = score;
+        }
+      }
+
+      final delta = bestScoreInSeries - firstScore;
+      if (delta > mostImprovedDelta) {
+        mostImprovedDelta = delta;
+        mostImprovedTitle =
+            templateWorkouts.first['title_snapshot'] as String? ?? '-';
+      }
+    }
+
+    return {
+      'best_workout_title': bestWorkout['title_snapshot'] as String? ?? '-',
+      'best_workout_score': bestWorkoutScore,
+      'highest_workload_title':
+      highestWorkloadWorkout['title_snapshot'] as String? ?? '-',
+      'highest_workload': highestWorkoutWorkload,
+      'most_improved_title': mostImprovedTitle,
+      'most_improved_delta': mostImprovedDelta,
+    };
   }
 }
