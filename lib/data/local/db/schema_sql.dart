@@ -1,7 +1,7 @@
 import 'table_names.dart';
 
 class SchemaSql {
-  static const int dbVersion = 2;
+  static const int dbVersion = 3;
   static const String dbName = 'tll.db';
 
   static const supportedScoreTypes = ['multiplier', 'bodyweight'];
@@ -221,6 +221,20 @@ class SchemaSql {
     )
     ''',
     '''
+    CREATE TABLE ${TableNames.badgeAwards} (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      badge_key TEXT NOT NULL,
+      user_id TEXT NOT NULL,
+      awarded_at TEXT NOT NULL,
+      source_type TEXT NOT NULL,
+      source_id TEXT NOT NULL,
+      block_instance_id INTEGER,
+      metadata_json TEXT,
+      FOREIGN KEY (block_instance_id) REFERENCES ${TableNames.blockInstances}(id)
+    )
+    ''',
+
+    '''
     CREATE TABLE ${TableNames.syncQueue} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       entity_type TEXT NOT NULL,
@@ -256,6 +270,9 @@ class SchemaSql {
     'CREATE INDEX idx_lift_logs_lift_instance_id ON ${TableNames.liftLogs}(lift_instance_id)',
     'CREATE UNIQUE INDEX idx_lift_logs_lift_set ON ${TableNames.liftLogs}(lift_instance_id, set_index)',
     'CREATE UNIQUE INDEX idx_lift_weight_pr_cache_user_lift ON ${TableNames.liftWeightPrCache}(user_id, lift_key)',
+    'CREATE INDEX idx_badge_awards_user_id ON ${TableNames.badgeAwards}(user_id)',
+    'CREATE INDEX idx_badge_awards_block_instance_id ON ${TableNames.badgeAwards}(block_instance_id)',
+    'CREATE INDEX idx_badge_awards_user_badge_key ON ${TableNames.badgeAwards}(user_id, badge_key)',
     'CREATE UNIQUE INDEX idx_sync_state_key ON ${TableNames.syncState}(key)',
     'CREATE INDEX idx_lift_catalog_muscle_groups_lift_catalog_id ON ${TableNames.liftCatalogMuscleGroups}(lift_catalog_id)',
     'CREATE INDEX idx_lift_catalog_muscle_groups_muscle_group_id ON ${TableNames.liftCatalogMuscleGroups}(muscle_group_id)',

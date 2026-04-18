@@ -19,6 +19,7 @@ class TableNames {
 
   static const userStatsCache = 'user_stats_cache';
   static const liftWeightPrCache = 'lift_weight_pr_cache';
+  static const badgeAwards = 'badge_awards';
 
   static const syncQueue = 'sync_queue';
   static const syncState = 'sync_state';
