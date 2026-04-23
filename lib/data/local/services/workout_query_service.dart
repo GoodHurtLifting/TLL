@@ -37,6 +37,53 @@ class WorkoutQueryService {
     });
   }
 
+  Future<Map<String, Object?>> getLiftTotals({
+    required int liftInstanceId,
+  }) async {
+    final db = await DbService.instance.database;
+    final rows = await db.query(
+      TableNames.liftTotals,
+      where: 'lift_instance_id = ?',
+      whereArgs: [liftInstanceId],
+      limit: 1,
+    );
+
+    if (rows.isEmpty) {
+      return {
+        'lift_instance_id': liftInstanceId,
+        'total_reps': 0,
+        'total_workload': 0.0,
+        'total_score': 0.0,
+      };
+    }
+
+    return rows.first;
+  }
+
+  Future<Map<String, Object?>> getWorkoutTotals({
+    required int workoutInstanceId,
+  }) async {
+    final db = await DbService.instance.database;
+    final rows = await db.query(
+      TableNames.workoutTotals,
+      where: 'workout_instance_id = ?',
+      whereArgs: [workoutInstanceId],
+      limit: 1,
+    );
+
+    if (rows.isEmpty) {
+      return {
+        'workout_instance_id': workoutInstanceId,
+        'total_workload': 0.0,
+        'workout_score': 0.0,
+        'completed_lift_count': 0,
+        'total_lift_count': 0,
+      };
+    }
+
+    return rows.first;
+  }
+
   Future<Map<String, Object?>> _getWorkoutHeader(
       Transaction txn, {
         required int workoutInstanceId,

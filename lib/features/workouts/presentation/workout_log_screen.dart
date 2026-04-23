@@ -81,8 +81,7 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
         reps: reps,
         weight: weight,
       );
-
-      await _loadWorkout();
+      await _syncTotalsAfterSetSave(liftInstanceId: liftInstanceId);
     } catch (e) {
       if (!mounted) return;
 
@@ -98,6 +97,55 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
         _isSaving = false;
       });
     }
+  }
+
+  Future<void> _syncTotalsAfterSetSave({
+    required int liftInstanceId,
+  }) async {
+    final currentData = _workoutData;
+    if (currentData == null) return;
+
+    final updatedLiftTotals = await WorkoutQueryService.instance.getLiftTotals(
+      liftInstanceId: liftInstanceId,
+    );
+    final updatedWorkoutTotals =
+        await WorkoutQueryService.instance.getWorkoutTotals(
+      workoutInstanceId: widget.workoutInstanceId,
+    );
+
+    if (!mounted) return;
+
+    final existingLifts =
+        List<Map<String, Object?>>.from(currentData['lifts'] as List);
+    final liftBundleIndex = existingLifts.indexWhere((liftBundle) {
+      final liftInstance =
+          liftBundle['lift_instance'] as Map<String, Object?>;
+      final id = liftInstance['id'] as int?;
+      return id == liftInstanceId;
+    });
+
+    if (liftBundleIndex == -1) {
+      setState(() {
+        _workoutData = {
+          ...currentData,
+          'workout_totals': updatedWorkoutTotals,
+        };
+      });
+      return;
+    }
+
+    final updatedLiftBundle =
+        Map<String, Object?>.from(existingLifts[liftBundleIndex]);
+    updatedLiftBundle['totals'] = updatedLiftTotals;
+    existingLifts[liftBundleIndex] = updatedLiftBundle;
+
+    setState(() {
+      _workoutData = {
+        ...currentData,
+        'lifts': existingLifts,
+        'workout_totals': updatedWorkoutTotals,
+      };
+    });
   }
 
   Future<void> _finishWorkout() async {
