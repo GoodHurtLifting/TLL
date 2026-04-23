@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
+import '../../../data/local/services/badge_evaluation_service.dart';
 import '../../../data/local/services/lift_logging_service.dart';
 import '../../../data/local/services/workout_completion_service.dart';
 import '../../../data/local/services/workout_query_service.dart';
@@ -116,6 +119,11 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
         workoutInstanceId: widget.workoutInstanceId,
       );
 
+      final lunchLadyAwards =
+          await BadgeEvaluationService.instance.getLunchLadyAwardsForWorkout(
+        workoutInstanceId: widget.workoutInstanceId,
+      );
+
       final isBlockComplete =
       await WorkoutCompletionService.instance.isBlockCompletedForWorkout(
         workoutInstanceId: widget.workoutInstanceId,
@@ -125,6 +133,12 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
       await WorkoutCompletionService.instance.getBlockInstanceIdForWorkout(
         workoutInstanceId: widget.workoutInstanceId,
       );
+
+      if (!mounted) return;
+
+      if (lunchLadyAwards.isNotEmpty) {
+        await _showLunchLadyBadgeDialog(lunchLadyAwards.last);
+      }
 
       if (!mounted) return;
 
@@ -154,6 +168,70 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
         _isSaving = false;
       });
     }
+  }
+
+  Future<void> _showLunchLadyBadgeDialog(Map<String, Object?> award) async {
+    final metadataRaw = award['metadata_json'] as String?;
+    String? liftKey;
+
+    if (metadataRaw != null && metadataRaw.isNotEmpty) {
+      try {
+        final decoded = jsonDecode(metadataRaw);
+        if (decoded is Map<String, dynamic>) {
+          liftKey = decoded['lift_key'] as String?;
+        }
+      } catch (_) {
+        liftKey = null;
+      }
+    }
+
+    final formattedLiftKey = liftKey == null ? null : _formatLiftKey(liftKey);
+
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Lunch Lady'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Center(
+                child: Icon(
+                  Icons.emoji_events_outlined,
+                  size: 48,
+                ),
+              ),
+              const SizedBox(height: 12),
+              const Text('New PR on a big 3 lift.'),
+              if (formattedLiftKey != null) ...[
+                const SizedBox(height: 8),
+                Text('Lift: $formattedLiftKey'),
+              ],
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Nice'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String _formatLiftKey(String liftKey) {
+    return liftKey
+        .split('_')
+        .map((segment) {
+          if (segment.isEmpty) {
+            return segment;
+          }
+          return '${segment[0].toUpperCase()}${segment.substring(1)}';
+        })
+        .join(' ');
   }
 
   @override
