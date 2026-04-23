@@ -87,6 +87,26 @@ class BadgeEvaluationService {
     );
   }
 
+  Future<List<Map<String, Object?>>> getLunchLadyAwardsForWorkout({
+    required int workoutInstanceId,
+  }) async {
+    final db = await DbService.instance.database;
+
+    return db.rawQuery(
+      '''
+      SELECT ba.*
+      FROM ${TableNames.badgeAwards} ba
+      INNER JOIN ${TableNames.liftInstances} li
+        ON ba.source_type = 'lift_log'
+        AND ba.source_id LIKE CAST(li.id AS TEXT) || ':%'
+      WHERE li.workout_instance_id = ?
+        AND ba.badge_key = ?
+      ORDER BY ba.awarded_at ASC, ba.id ASC
+      ''',
+      [workoutInstanceId, BadgeKeys.lunchLady],
+    );
+  }
+
   Future<int> getTotalBadgeCountForUser({
     required String userId,
   }) async {
