@@ -17,13 +17,33 @@ Workout instance generation
 Logging + totals
 
 ## Phase 4
-Stats
+Core app flow
+- app launch
+- block dashboard
+- workout log
+- finish workout
+- block summary
 
 ## Phase 5
-Firebase auth + profile sync
+Core feedback loop
+- improvements in summary
+- foundational badges
+- workout-end badge popup
+- summary badge display
 
 ## Phase 6
-Social features
+Stats
 
 ## Phase 7
-Badges, titles, momentum
+Firebase auth + profile sync
+
+## Phase 8
+Social features
+
+## Phase 9
+Expanded gamification
+- titles
+- momentum meter
+- badge leaderboard
+- richer badge UI
+- social badge interactions
