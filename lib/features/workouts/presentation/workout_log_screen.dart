@@ -7,6 +7,7 @@ import '../../../data/local/services/lift_logging_service.dart';
 import '../../../data/local/services/workout_completion_service.dart';
 import '../../../data/local/services/workout_query_service.dart';
 import '../../blocks/presentation/block_summary_screen.dart';
+import 'widgets/badge_award_dialog.dart';
 
 class WorkoutLogScreen extends StatefulWidget {
   final int workoutInstanceId;
@@ -125,19 +126,29 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
       );
 
       final isBlockComplete =
-      await WorkoutCompletionService.instance.isBlockCompletedForWorkout(
+          await WorkoutCompletionService.instance.isBlockCompletedForWorkout(
         workoutInstanceId: widget.workoutInstanceId,
       );
 
       final blockInstanceId =
-      await WorkoutCompletionService.instance.getBlockInstanceIdForWorkout(
+          await WorkoutCompletionService.instance.getBlockInstanceIdForWorkout(
         workoutInstanceId: widget.workoutInstanceId,
       );
+
+      final blockAwards = await BadgeEvaluationService.instance
+          .getAwardsForBlockInstance(blockInstanceId: blockInstanceId);
+      final meatWagonAwards = blockAwards
+          .where((award) => award['badge_key'] == 'meat_wagon')
+          .toList();
 
       if (!mounted) return;
 
       if (lunchLadyAwards.isNotEmpty) {
         await _showLunchLadyBadgeDialog(lunchLadyAwards.last);
+      }
+
+      if (meatWagonAwards.isNotEmpty) {
+        await _showMeatWagonBadgeDialog(meatWagonAwards.last);
       }
 
       if (!mounted) return;
@@ -171,55 +182,50 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
   }
 
   Future<void> _showLunchLadyBadgeDialog(Map<String, Object?> award) async {
-    final metadataRaw = award['metadata_json'] as String?;
-    String? liftKey;
-
-    if (metadataRaw != null && metadataRaw.isNotEmpty) {
-      try {
-        final decoded = jsonDecode(metadataRaw);
-        if (decoded is Map<String, dynamic>) {
-          liftKey = decoded['lift_key'] as String?;
-        }
-      } catch (_) {
-        liftKey = null;
-      }
-    }
-
+    final metadata = _decodeMetadata(award);
+    final liftKey = metadata['lift_key'] as String?;
     final formattedLiftKey = liftKey == null ? null : _formatLiftKey(liftKey);
 
-    await showDialog<void>(
+    await showBadgeAwardDialog(
       context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: const Text('Lunch Lady'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Center(
-                child: Icon(
-                  Icons.emoji_events_outlined,
-                  size: 48,
-                ),
-              ),
-              const SizedBox(height: 12),
-              const Text('New PR on a big 3 lift.'),
-              if (formattedLiftKey != null) ...[
-                const SizedBox(height: 8),
-                Text('Lift: $formattedLiftKey'),
-              ],
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Nice'),
-            ),
-          ],
-        );
-      },
+      title: 'Lunch Lady',
+      icon: Icons.emoji_events_outlined,
+      message: 'New PR on a big 3 lift.',
+      detail: formattedLiftKey == null ? null : 'Lift: $formattedLiftKey',
+      buttonLabel: 'Nice',
     );
+  }
+
+  Future<void> _showMeatWagonBadgeDialog(Map<String, Object?> award) async {
+    final metadata = _decodeMetadata(award);
+    final thresholdLbs = (metadata['threshold_lbs'] as num?)?.toInt();
+
+    await showBadgeAwardDialog(
+      context: context,
+      title: 'Meat Wagon',
+      icon: Icons.local_shipping_outlined,
+      message: 'Lifetime workload milestone reached.',
+      detail: thresholdLbs == null ? null : 'Threshold: ${thresholdLbs} lbs',
+      buttonLabel: 'Nice',
+    );
+  }
+
+  Map<String, dynamic> _decodeMetadata(Map<String, Object?> award) {
+    final metadataRaw = award['metadata_json'] as String?;
+    if (metadataRaw == null || metadataRaw.isEmpty) {
+      return <String, dynamic>{};
+    }
+
+    try {
+      final decoded = jsonDecode(metadataRaw);
+      if (decoded is Map<String, dynamic>) {
+        return decoded;
+      }
+    } catch (_) {
+      return <String, dynamic>{};
+    }
+
+    return <String, dynamic>{};
   }
 
   String _formatLiftKey(String liftKey) {
