@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
+import '../../../data/local/badges/badge_definitions.dart';
 import '../../../data/local/services/block_summary_query_service.dart';
 
 class BlockSummaryScreen extends StatefulWidget {
@@ -429,16 +432,63 @@ class _MilestonesCard extends StatelessWidget {
   });
 
   String _formatBadgeKey(String key) {
-    switch (key) {
-      case 'meat_wagon':
-        return 'Meat Wagon';
-      case 'lunch_lady':
-        return 'Lunch Lady';
-      case 'punch_card':
-        return 'Punch Card';
-      default:
-        return key;
+    final definition = BadgeDefinitions.stock[key];
+    if (definition != null) {
+      return definition.title;
     }
+
+    return key
+        .split('_')
+        .where((part) => part.isNotEmpty)
+        .map(
+          (part) => '${part[0].toUpperCase()}${part.substring(1)}',
+        )
+        .join(' ');
+  }
+
+  Map<String, Object?>? _parseMetadata(Object? rawMetadata) {
+    if (rawMetadata is! String || rawMetadata.isEmpty) {
+      return null;
+    }
+
+    try {
+      final decoded = jsonDecode(rawMetadata);
+      if (decoded is! Map) {
+        return null;
+      }
+
+      return decoded.map((key, value) => MapEntry(key.toString(), value));
+    } on FormatException {
+      return null;
+    }
+  }
+
+  String? _buildBadgeDetail({
+    required String badgeKey,
+    required Map<String, Object?> badge,
+  }) {
+    final metadata = _parseMetadata(badge['metadata_json']);
+    if (metadata == null) {
+      return null;
+    }
+
+    if (badgeKey == BadgeKeys.lunchLady) {
+      final liftKey = metadata['lift_key'] as String?;
+      if (liftKey == null || liftKey.isEmpty) {
+        return null;
+      }
+      return 'Lift: ${_formatBadgeKey(liftKey)}';
+    }
+
+    if (badgeKey == BadgeKeys.meatWagon) {
+      final threshold = metadata['threshold_lbs'] as num?;
+      if (threshold == null) {
+        return null;
+      }
+      return 'Threshold: ${threshold.toStringAsFixed(0)} lbs';
+    }
+
+    return null;
   }
 
   @override
@@ -465,20 +515,36 @@ class _MilestonesCard extends StatelessWidget {
               ...badges.map((badge) {
                 final badgeKey = (badge['badge_key'] as String?) ?? '';
                 final awardedAt = (badge['awarded_at'] as String?) ?? '';
+                final detail = _buildBadgeDetail(
+                  badgeKey: badgeKey,
+                  badge: badge,
+                );
 
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Text(_formatBadgeKey(badgeKey)),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(_formatBadgeKey(badgeKey)),
+                          ),
+                          Text(
+                            awardedAt.isEmpty
+                                ? ''
+                                : awardedAt.split('T').first,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
                       ),
-                      Text(
-                        awardedAt.isEmpty
-                            ? ''
-                            : awardedAt.split('T').first,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
+                      if (detail != null) ...[
+                        const SizedBox(height: 2),
+                        Text(
+                          detail,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ],
                     ],
                   ),
                 );
