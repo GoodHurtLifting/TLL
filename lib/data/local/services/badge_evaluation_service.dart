@@ -107,6 +107,19 @@ class BadgeEvaluationService {
     );
   }
 
+  Future<List<Map<String, Object?>>> getMeatWagonAwardsForBlock({
+    required int blockInstanceId,
+  }) async {
+    final db = await DbService.instance.database;
+
+    return db.query(
+      TableNames.badgeAwards,
+      where: 'block_instance_id = ? AND badge_key = ?',
+      whereArgs: [blockInstanceId, BadgeKeys.meatWagon],
+      orderBy: 'awarded_at ASC, id ASC',
+    );
+  }
+
   Future<int> getTotalBadgeCountForUser({
     required String userId,
   }) async {

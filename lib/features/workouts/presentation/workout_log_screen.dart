@@ -23,6 +23,8 @@ class WorkoutLogScreen extends StatefulWidget {
 class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
   bool _isLoading = true;
   bool _isSaving = false;
+  bool _lunchLadyShown = false;
+  bool _meatWagonShown = false;
   Map<String, Object?>? _workoutData;
   String? _error;
 
@@ -115,30 +117,41 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
         workoutInstanceId: widget.workoutInstanceId,
       );
 
-      await WorkoutCompletionService.instance.finishWorkout(
-        workoutInstanceId: widget.workoutInstanceId,
-      );
-
-      final lunchLadyAwards =
-          await BadgeEvaluationService.instance.getLunchLadyAwardsForWorkout(
-        workoutInstanceId: widget.workoutInstanceId,
-      );
-
-      final isBlockComplete =
-      await WorkoutCompletionService.instance.isBlockCompletedForWorkout(
-        workoutInstanceId: widget.workoutInstanceId,
-      );
-
       final blockInstanceId =
       await WorkoutCompletionService.instance.getBlockInstanceIdForWorkout(
         workoutInstanceId: widget.workoutInstanceId,
       );
 
-      if (!mounted) return;
+      await WorkoutCompletionService.instance.finishWorkout(
+        workoutInstanceId: widget.workoutInstanceId,
+      );
 
-      if (lunchLadyAwards.isNotEmpty) {
+      final lunchLadyAwards =
+      await BadgeEvaluationService.instance.getLunchLadyAwardsForWorkout(
+        workoutInstanceId: widget.workoutInstanceId,
+      );
+
+      if (lunchLadyAwards.isNotEmpty && !_lunchLadyShown) {
+        _lunchLadyShown = true;
+        if (!mounted) return;
         await _showLunchLadyBadgeDialog(lunchLadyAwards.last);
       }
+
+      final meatWagonAwards =
+      await BadgeEvaluationService.instance.getMeatWagonAwardsForBlock(
+        blockInstanceId: blockInstanceId,
+      );
+
+      if (meatWagonAwards.isNotEmpty && !_meatWagonShown) {
+        _meatWagonShown = true;
+        if (!mounted) return;
+        await _showMeatWagonBadgeDialog(meatWagonAwards.last);
+      }
+
+      final isBlockComplete =
+      await WorkoutCompletionService.instance.isBlockCompletedForWorkout(
+        workoutInstanceId: widget.workoutInstanceId,
+      );
 
       if (!mounted) return;
 
@@ -159,11 +172,9 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Finish failed: $e')),
       );
-      setState(() {
-        _isSaving = false;
-      });
     } finally {
       if (!mounted) return;
+
       setState(() {
         _isSaving = false;
       });
@@ -208,6 +219,58 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
               if (formattedLiftKey != null) ...[
                 const SizedBox(height: 8),
                 Text('Lift: $formattedLiftKey'),
+              ],
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Nice'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showMeatWagonBadgeDialog(Map<String, Object?> award) async {
+    final metadataRaw = award['metadata_json'] as String?;
+    int? thresholdLbs;
+
+    if (metadataRaw != null && metadataRaw.isNotEmpty) {
+      try {
+        final decoded = jsonDecode(metadataRaw);
+        if (decoded is Map<String, dynamic>) {
+          final rawThreshold = decoded['threshold_lbs'];
+          if (rawThreshold is int) {
+            thresholdLbs = rawThreshold;
+          } else if (rawThreshold is double) {
+            thresholdLbs = rawThreshold.toInt();
+          }
+        }
+      } catch (_) {
+        thresholdLbs = null;
+      }
+    }
+
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Meat Wagon'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Center(
+                child: Icon(Icons.local_shipping_outlined, size: 48),
+              ),
+              const SizedBox(height: 12),
+              const Text('You crossed another lifetime workload milestone.'),
+              if (thresholdLbs != null) ...[
+                const SizedBox(height: 8),
+                Text('Milestone: ${thresholdLbs.toString()} lbs'),
               ],
             ],
           ),
