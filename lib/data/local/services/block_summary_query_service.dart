@@ -2,6 +2,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../db/db_service.dart';
 import '../db/table_names.dart';
+import 'badge_evaluation_service.dart';
 
 class BlockSummaryQueryService {
   BlockSummaryQueryService._();
@@ -14,38 +15,42 @@ class BlockSummaryQueryService {
   }) async {
     final db = await DbService.instance.database;
 
-    return db.transaction((txn) async {
-      final block = await _getBlockHeader(
-        txn,
-        blockInstanceId: blockInstanceId,
-      );
+    final block = await _getBlockHeader(
+      db,
+      blockInstanceId: blockInstanceId,
+    );
 
-      final blockTotals = await _getBlockTotals(
-        txn,
-        blockInstanceId: blockInstanceId,
-      );
+    final blockTotals = await _getBlockTotals(
+      db,
+      blockInstanceId: blockInstanceId,
+    );
 
-      final workoutRows = await _getWorkoutRows(
-        txn,
-        blockInstanceId: blockInstanceId,
-      );
+    final workoutRows = await _getWorkoutRows(
+      db,
+      blockInstanceId: blockInstanceId,
+    );
 
-      final improvementMetrics = _buildImprovementMetrics(workoutRows);
+    final improvementMetrics = _buildImprovementMetrics(workoutRows);
 
-      return {
-        'block': block,
-        'block_totals': blockTotals,
-        'workouts': workoutRows,
-        'improvement_metrics': improvementMetrics,
-      };
-    });
+    final badges =
+    await BadgeEvaluationService.instance.getAwardsForBlockInstance(
+      blockInstanceId: blockInstanceId,
+    );
+
+    return {
+      'block': block,
+      'block_totals': blockTotals,
+      'workouts': workoutRows,
+      'improvement_metrics': improvementMetrics,
+      'badges': badges,
+    };
   }
 
   Future<Map<String, Object?>> _getBlockHeader(
-      Transaction txn, {
+      DatabaseExecutor db, {
         required int blockInstanceId,
       }) async {
-    final rows = await txn.rawQuery(
+    final rows = await db.rawQuery(
       '''
       SELECT
         bi.id,
@@ -74,10 +79,10 @@ class BlockSummaryQueryService {
   }
 
   Future<Map<String, Object?>> _getBlockTotals(
-      Transaction txn, {
+      DatabaseExecutor db, {
         required int blockInstanceId,
       }) async {
-    final rows = await txn.query(
+    final rows = await db.query(
       TableNames.blockTotals,
       where: 'block_instance_id = ?',
       whereArgs: [blockInstanceId],
@@ -99,10 +104,10 @@ class BlockSummaryQueryService {
   }
 
   Future<List<Map<String, Object?>>> _getWorkoutRows(
-      Transaction txn, {
+      DatabaseExecutor db, {
         required int blockInstanceId,
       }) async {
-    final rows = await txn.rawQuery(
+    final rows = await db.rawQuery(
       '''
       SELECT
         wi.id,

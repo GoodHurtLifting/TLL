@@ -77,6 +77,7 @@ class _BlockSummaryScreenState extends State<BlockSummaryScreen> {
     final workouts = _data!['workouts'] as List<Map<String, Object?>>;
     final improvementMetrics =
     _data!['improvement_metrics'] as Map<String, Object?>;
+    final badges = _data!['badges'] as List<Map<String, Object?>>;
     final blockTitle = (block['title_snapshot'] as String?) ?? 'Block';
     final category = (block['category'] as String?) ?? '';
     final runNumber = block['run_number']?.toString() ?? '-';
@@ -159,7 +160,7 @@ class _BlockSummaryScreenState extends State<BlockSummaryScreen> {
               mostImprovedDelta: mostImprovedDelta,
             ),
             const SizedBox(height: 12),
-            const _MilestonesCard(),
+            _MilestonesCard(badges: badges),
             const SizedBox(height: 16),
             Text(
               'Workout Details',
@@ -421,7 +422,24 @@ class _ImprovementCard extends StatelessWidget {
 }
 
 class _MilestonesCard extends StatelessWidget {
-  const _MilestonesCard();
+  final List<Map<String, Object?>> badges;
+
+  const _MilestonesCard({
+    required this.badges,
+  });
+
+  String _formatBadgeKey(String key) {
+    switch (key) {
+      case 'meat_wagon':
+        return 'Meat Wagon';
+      case 'lunch_lady':
+        return 'Lunch Lady';
+      case 'punch_card':
+        return 'Punch Card';
+      default:
+        return key;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -438,12 +456,33 @@ class _MilestonesCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Badge tracking and milestone callouts will appear here.',
-              ),
-            ),
+            if (badges.isEmpty)
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text('No badges earned during this block yet.'),
+              )
+            else
+              ...badges.map((badge) {
+                final badgeKey = (badge['badge_key'] as String?) ?? '';
+                final awardedAt = (badge['awarded_at'] as String?) ?? '';
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(_formatBadgeKey(badgeKey)),
+                      ),
+                      Text(
+                        awardedAt.isEmpty
+                            ? ''
+                            : awardedAt.split('T').first,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                );
+              }),
           ],
         ),
       ),
