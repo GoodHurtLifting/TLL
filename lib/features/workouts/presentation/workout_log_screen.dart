@@ -109,6 +109,8 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
   }
 
   Future<void> _finishWorkout() async {
+    if (_isSaving) return;
+
     setState(() {
       _isSaving = true;
     });
@@ -132,7 +134,9 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
         workoutInstanceId: widget.workoutInstanceId,
       );
 
-      if (lunchLadyAwards.isNotEmpty && !_lunchLadyShown) {
+      final shouldShowLunchLady =
+          lunchLadyAwards.isNotEmpty && !_lunchLadyShown;
+      if (shouldShowLunchLady) {
         _lunchLadyShown = true;
         if (!mounted) return;
         await _showLunchLadyBadgeDialog(lunchLadyAwards.last);
@@ -143,7 +147,9 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
         blockInstanceId: blockInstanceId,
       );
 
-      if (meatWagonAwards.isNotEmpty && !_meatWagonShown) {
+      final shouldShowMeatWagon =
+          meatWagonAwards.isNotEmpty && !_meatWagonShown;
+      if (shouldShowMeatWagon) {
         _meatWagonShown = true;
         if (!mounted) return;
         await _showMeatWagonBadgeDialog(meatWagonAwards.last);
