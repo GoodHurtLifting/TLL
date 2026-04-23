@@ -65,18 +65,10 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
   Future<void> _saveSet({
     required int liftInstanceId,
     required int setIndex,
-    required TextEditingController repsController,
-    required TextEditingController weightController,
+    required int reps,
+    required double? weight,
   }) async {
-    final reps = int.tryParse(repsController.text.trim());
-    final weight = double.tryParse(weightController.text.trim());
-
-    if (reps == null || weight == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Enter valid reps and weight.')),
-      );
-      return;
-    }
+    if (_isSaving) return;
 
     setState(() {
       _isSaving = true;
@@ -423,8 +415,8 @@ class _LiftCard extends StatefulWidget {
   final Future<void> Function({
   required int liftInstanceId,
   required int setIndex,
-  required TextEditingController repsController,
-  required TextEditingController weightController,
+  required int reps,
+  required double? weight,
   }) onSaveSet;
 
   const _LiftCard({
@@ -439,6 +431,11 @@ class _LiftCard extends StatefulWidget {
 class _LiftCardState extends State<_LiftCard> {
   late final List<TextEditingController> _repsControllers;
   late final List<TextEditingController> _weightControllers;
+  late final List<FocusNode> _repsFocusNodes;
+  late final List<FocusNode> _weightFocusNodes;
+  late final List<int?> _lastSavedReps;
+  late final List<double?> _lastSavedWeight;
+  bool _isAutoSaving = false;
 
   int _parseSetCount(String repScheme) {
     final parts = repScheme.toLowerCase().split('x');
@@ -473,6 +470,28 @@ class _LiftCardState extends State<_LiftCard> {
         text: log?['weight']?.toString() ?? '',
       );
     });
+
+    _lastSavedReps = List.generate(setCount, (index) {
+      final log = index < logs.length ? logs[index] : null;
+      return log?['reps'] as int?;
+    });
+
+    _lastSavedWeight = List.generate(setCount, (index) {
+      final log = index < logs.length ? logs[index] : null;
+      return (log?['weight'] as num?)?.toDouble();
+    });
+
+    _repsFocusNodes = List.generate(setCount, (index) {
+      final node = FocusNode();
+      node.addListener(() => _handleFieldBlur(index: index));
+      return node;
+    });
+
+    _weightFocusNodes = List.generate(setCount, (index) {
+      final node = FocusNode();
+      node.addListener(() => _handleFieldBlur(index: index));
+      return node;
+    });
   }
 
   @override
@@ -483,7 +502,73 @@ class _LiftCardState extends State<_LiftCard> {
     for (final controller in _weightControllers) {
       controller.dispose();
     }
+    for (final node in _repsFocusNodes) {
+      node.dispose();
+    }
+    for (final node in _weightFocusNodes) {
+      node.dispose();
+    }
     super.dispose();
+  }
+
+  Future<void> _handleFieldBlur({required int index}) async {
+    final repsNodeHasFocus = _repsFocusNodes[index].hasFocus;
+    final weightNodeHasFocus = _weightFocusNodes[index].hasFocus;
+
+    if (repsNodeHasFocus || weightNodeHasFocus) {
+      return;
+    }
+
+    await _autoSaveSet(index: index);
+  }
+
+  Future<void> _autoSaveSet({required int index}) async {
+    if (_isAutoSaving) return;
+
+    final liftInstance =
+        widget.liftBundle['lift_instance'] as Map<String, Object?>;
+    final liftInstanceId = liftInstance['id'] as int;
+    final scoreType = (liftInstance['score_type_snapshot'] as String?) ?? '';
+    final isBodyweight = scoreType == 'bodyweight';
+
+    final repsText = _repsControllers[index].text.trim();
+    final weightText = _weightControllers[index].text.trim();
+
+    final reps = repsText.isEmpty ? null : int.tryParse(repsText);
+    final weight = weightText.isEmpty ? null : double.tryParse(weightText);
+
+    if (reps == null) {
+      return;
+    }
+
+    if (!isBodyweight && weight == null) {
+      return;
+    }
+
+    final lastReps = _lastSavedReps[index];
+    final lastWeight = _lastSavedWeight[index];
+    final hasRepsChanged = lastReps != reps;
+    final hasWeightChanged =
+        (weight ?? 0).toStringAsFixed(4) != (lastWeight ?? 0).toStringAsFixed(4) ||
+            (weight == null) != (lastWeight == null);
+
+    if (!hasRepsChanged && !hasWeightChanged) {
+      return;
+    }
+
+    _isAutoSaving = true;
+    try {
+      await widget.onSaveSet(
+        liftInstanceId: liftInstanceId,
+        setIndex: index,
+        reps: reps,
+        weight: weight,
+      );
+      _lastSavedReps[index] = reps;
+      _lastSavedWeight[index] = weight;
+    } finally {
+      _isAutoSaving = false;
+    }
   }
 
   TableCell _cell({
@@ -574,7 +659,6 @@ class _LiftCardState extends State<_LiftCard> {
 
   TableRow _buildSetRow({
     required int index,
-    required int liftInstanceId,
     required String prevRepsText,
     required String rightSideText,
     required bool showsRecommended,
@@ -591,6 +675,7 @@ class _LiftCardState extends State<_LiftCard> {
           color: const Color(0xFFEFEFEF),
           child: TextField(
             controller: _repsControllers[index],
+            focusNode: _repsFocusNodes[index],
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
             decoration: const InputDecoration(
@@ -604,6 +689,7 @@ class _LiftCardState extends State<_LiftCard> {
           color: const Color(0xFFEFEFEF),
           child: TextField(
             controller: _weightControllers[index],
+            focusNode: _weightFocusNodes[index],
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             textAlign: TextAlign.center,
             decoration: const InputDecoration(
@@ -754,7 +840,6 @@ class _LiftCardState extends State<_LiftCard> {
     final totals = widget.liftBundle['totals'] as Map<String, Object?>;
     final previous = widget.liftBundle['previous'] as Map<String, Object?>;
     final previousLogs = previous['logs'] as List<Map<String, Object?>>;
-    final liftInstanceId = liftInstance['id'] as int;
     final liftName =
         (liftInstance['lift_name_snapshot'] as String?) ?? 'Lift';
     final repScheme =
@@ -829,7 +914,6 @@ class _LiftCardState extends State<_LiftCard> {
                   _repsControllers.length,
                       (index) => _buildSetRow(
                     index: index,
-                    liftInstanceId: liftInstanceId,
                     prevRepsText: _getPreviousRepsText(previousLogs, index),
                     rightSideText: showsRecommended
                         ? recommendedWeight!.toStringAsFixed(0)
@@ -848,31 +932,6 @@ class _LiftCardState extends State<_LiftCard> {
                   previousTotalScore: previousTotalScore,
                 ),
               ],
-            ),
-            const SizedBox(height: 12),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: List.generate(
-                  _repsControllers.length,
-                      (index) => SizedBox(
-                    width: 88,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        widget.onSaveSet(
-                          liftInstanceId: liftInstanceId,
-                          setIndex: index,
-                          repsController: _repsControllers[index],
-                          weightController: _weightControllers[index],
-                        );
-                      },
-                      child: Text('Save ${index + 1}'),
-                    ),
-                  ),
-                ),
-              ),
             ),
           ],
         ),

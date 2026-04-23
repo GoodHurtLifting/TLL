@@ -13,11 +13,22 @@ class LiftLoggingService {
     required int liftInstanceId,
     required int setIndex,
     required int reps,
-    required double weight,
+    required double? weight,
   }) async {
     final db = await DbService.instance.database;
 
     await db.transaction((txn) async {
+      final liftInstance = await _getLiftInstanceById(txn, liftInstanceId);
+      final scoreType = liftInstance['score_type_snapshot'] as String;
+
+      if (reps <= 0) {
+        throw Exception('Reps must be greater than zero.');
+      }
+
+      if (scoreType == 'multiplier' && weight == null) {
+        throw Exception('Weight is required for multiplier lifts.');
+      }
+
       final workoutInstanceId = await _getWorkoutInstanceIdForLiftInstance(
         txn,
         liftInstanceId,
