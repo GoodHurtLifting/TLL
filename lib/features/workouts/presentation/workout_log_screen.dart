@@ -7,6 +7,7 @@ import '../../../data/local/services/lift_logging_service.dart';
 import '../../../data/local/services/workout_completion_service.dart';
 import '../../../data/local/services/workout_query_service.dart';
 import '../../blocks/presentation/block_summary_screen.dart';
+import 'widgets/badge_award_dialog.dart';
 
 class WorkoutLogScreen extends StatefulWidget {
   final int workoutInstanceId;
@@ -198,38 +199,12 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
 
     final formattedLiftKey = liftKey == null ? null : _formatLiftKey(liftKey);
 
-    await showDialog<void>(
+    await showBadgeAwardDialog(
       context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: const Text('Lunch Lady'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Center(
-                child: Icon(
-                  Icons.emoji_events_outlined,
-                  size: 48,
-                ),
-              ),
-              const SizedBox(height: 12),
-              const Text('New PR on a big 3 lift.'),
-              if (formattedLiftKey != null) ...[
-                const SizedBox(height: 8),
-                Text('Lift: $formattedLiftKey'),
-              ],
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Nice'),
-            ),
-          ],
-        );
-      },
+      title: 'Lunch Lady',
+      icon: Icons.emoji_events_outlined,
+      message: 'New PR on a big 3 lift.',
+      detail: formattedLiftKey == null ? null : 'Lift: $formattedLiftKey',
     );
   }
 
@@ -253,35 +228,12 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
       }
     }
 
-    await showDialog<void>(
+    await showBadgeAwardDialog(
       context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: const Text('Meat Wagon'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Center(
-                child: Icon(Icons.local_shipping_outlined, size: 48),
-              ),
-              const SizedBox(height: 12),
-              const Text('You crossed another lifetime workload milestone.'),
-              if (thresholdLbs != null) ...[
-                const SizedBox(height: 8),
-                Text('Milestone: ${thresholdLbs.toString()} lbs'),
-              ],
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Nice'),
-            ),
-          ],
-        );
-      },
+      title: 'Meat Wagon',
+      icon: Icons.local_shipping_outlined,
+      message: 'You crossed another lifetime workload milestone.',
+      detail: thresholdLbs == null ? null : 'Milestone: $thresholdLbs lbs',
     );
   }
 
