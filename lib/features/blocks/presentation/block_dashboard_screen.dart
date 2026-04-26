@@ -70,7 +70,19 @@ class _BlockDashboardScreenState extends State<BlockDashboardScreen> {
     if (_isLoading) {
       return const Scaffold(
         backgroundColor: Colors.black,
-        body: Center(child: CircularProgressIndicator()),
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(color: Colors.white),
+              SizedBox(height: 12),
+              Text(
+                'Loading dashboard...',
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
       );
     }
 
@@ -163,7 +175,7 @@ class _BlockDashboardScreenState extends State<BlockDashboardScreen> {
             const SizedBox(height: 20),
             for (final entry in groupedWorkouts.entries) ...[
               Text(
-                'WEEK ${entry.key}',
+                'WEEK ${entry.key + 1}',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 22,
