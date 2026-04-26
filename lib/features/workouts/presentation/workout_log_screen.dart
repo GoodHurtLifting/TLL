@@ -94,9 +94,6 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
       });
     } finally {
       if (!mounted) return;
-      setState(() {
-        _isSaving = false;
-      });
     }
   }
 
@@ -236,8 +233,9 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
     if (metadataRaw != null && metadataRaw.isNotEmpty) {
       try {
         final decoded = jsonDecode(metadataRaw);
-        if (decoded is Map<String, dynamic>) {
-          liftKey = decoded['lift_key'] as String?;
+        if (decoded is Map) {
+          final metadata = Map<String, dynamic>.from(decoded);
+          liftKey = metadata['lift_key'] as String?;
         }
       } catch (_) {
         liftKey = null;
@@ -262,8 +260,10 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
     if (metadataRaw != null && metadataRaw.isNotEmpty) {
       try {
         final decoded = jsonDecode(metadataRaw);
-        if (decoded is Map<String, dynamic>) {
-          final rawThreshold = decoded['threshold_lbs'];
+        if (decoded is Map) {
+          final metadata = Map<String, dynamic>.from(decoded);
+          final rawThreshold = metadata['threshold_lbs'];
+
           if (rawThreshold is int) {
             thresholdLbs = rawThreshold;
           } else if (rawThreshold is double) {
@@ -341,9 +341,7 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
         workoutScore: workoutScore,
         totalWorkload: totalWorkload,
       ),
-      body: AbsorbPointer(
-        absorbing: _isSaving,
-        child: RefreshIndicator(
+      body: RefreshIndicator(
           onRefresh: _loadWorkout,
           child: ListView(
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 20),
@@ -373,7 +371,7 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
             ],
           ),
         ),
-      ),
+
     );
   }
 }
