@@ -29,10 +29,16 @@ class WorkoutQueryService {
         workoutInstanceId: workoutInstanceId,
       );
 
+      final previousWorkoutTotals = await _getPreviousWorkoutTotals(
+        txn,
+        workoutHeader: workout,
+      );
+
       return {
         'workout': workout,
         'lifts': lifts,
         'workout_totals': workoutTotals,
+        'previous_workout_totals': previousWorkoutTotals,
       };
     });
   }
@@ -318,5 +324,59 @@ class WorkoutQueryService {
     }
 
     return rows.first;
+  }
+
+  Future<Map<String, Object?>> _getPreviousWorkoutTotals(
+    Transaction txn, {
+    required Map<String, Object?> workoutHeader,
+  }) async {
+    final userId = workoutHeader['user_id'] as String;
+    final currentWorkoutInstanceId = workoutHeader['id'] as int;
+    final currentWorkoutTemplateId = workoutHeader['workout_template_id'] as int;
+
+    final previousWorkoutRows = await txn.rawQuery(
+      '''
+      SELECT wi.id
+      FROM ${TableNames.workoutInstances} wi
+      INNER JOIN ${TableNames.blockInstances} bi
+        ON bi.id = wi.block_instance_id
+      WHERE bi.user_id = ?
+        AND wi.workout_template_id = ?
+        AND wi.id < ?
+      ORDER BY wi.id DESC
+      LIMIT 1
+      ''',
+      [userId, currentWorkoutTemplateId, currentWorkoutInstanceId],
+    );
+
+    if (previousWorkoutRows.isEmpty) {
+      return {
+        'workout_instance_id': null,
+        'total_workload': 0.0,
+        'workout_score': 0.0,
+        'completed_lift_count': 0,
+        'total_lift_count': 0,
+      };
+    }
+
+    final previousWorkoutInstanceId = previousWorkoutRows.first['id'] as int;
+    final previousTotalsRows = await txn.query(
+      TableNames.workoutTotals,
+      where: 'workout_instance_id = ?',
+      whereArgs: [previousWorkoutInstanceId],
+      limit: 1,
+    );
+
+    if (previousTotalsRows.isEmpty) {
+      return {
+        'workout_instance_id': previousWorkoutInstanceId,
+        'total_workload': 0.0,
+        'workout_score': 0.0,
+        'completed_lift_count': 0,
+        'total_lift_count': 0,
+      };
+    }
+
+    return previousTotalsRows.first;
   }
 }
