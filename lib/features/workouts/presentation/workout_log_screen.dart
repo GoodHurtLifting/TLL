@@ -319,14 +319,16 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
     final workout = _workoutData!['workout'] as Map<String, Object?>;
     final lifts = _workoutData!['lifts'] as List<Map<String, Object?>>;
     final workoutTotals = _workoutData!['workout_totals'] as Map<String, Object?>;
+    final previousWorkoutTotals =
+        _workoutData!['previous_workout_totals'] as Map<String, Object?>? ?? {};
 
     final blockTitle =
         (workout['block_title_snapshot'] as String?) ?? 'Block';
     final workoutTitle = (workout['title_snapshot'] as String?) ?? 'Workout';
-    final runNumber = workout['run_number'];
-    final dayLabel = (workout['day_label'] as String?) ?? '';
     final workoutScore =
     ((workoutTotals['workout_score'] as num?) ?? 0).toDouble();
+    final previousWorkoutScore =
+        ((previousWorkoutTotals['workout_score'] as num?) ?? 0).toDouble();
     final totalWorkload =
     ((workoutTotals['total_workload'] as num?) ?? 0).toDouble();
 
@@ -339,6 +341,7 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
       ),
       bottomNavigationBar: _WorkoutTotalsFooter(
         workoutScore: workoutScore,
+        previousWorkoutScore: previousWorkoutScore,
         totalWorkload: totalWorkload,
       ),
       body: AbsorbPointer(
@@ -348,26 +351,38 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 20),
             children: [
-              _WorkoutHeaderCard(
-                blockTitle: blockTitle,
-                workoutTitle: workoutTitle,
-                runNumber: runNumber?.toString() ?? '-',
-                dayLabel: dayLabel,
-              ),
-              const SizedBox(height: 12),
-              for (final liftBundle in lifts) ...[
+              for (var index = 0; index < lifts.length; index++) ...[
                 _LiftCard(
-                  liftBundle: liftBundle,
+                  liftBundle: lifts[index],
                   onSaveSet: _saveSet,
                 ),
-                const SizedBox(height: 12),
+                if (index < lifts.length - 1)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Divider(
+                      color: Colors.white24,
+                      thickness: 0.5,
+                      height: 1,
+                    ),
+                  ),
               ],
               const SizedBox(height: 16),
-              SizedBox(
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: _isSaving ? null : _finishWorkout,
-                  child: const Text('Finish Workout'),
+              Center(
+                child: SizedBox(
+                  height: 44,
+                  width: 220,
+                  child: ElevatedButton(
+                    onPressed: _isSaving ? null : _finishWorkout,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1F1F1F),
+                      foregroundColor: Colors.white,
+                      side: const BorderSide(color: Colors.white24),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                    child: const Text('Finish Workout'),
+                  ),
                 ),
               ),
             ],
@@ -378,67 +393,14 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
   }
 }
 
-class _WorkoutHeaderCard extends StatelessWidget {
-  final String blockTitle;
-  final String workoutTitle;
-  final String runNumber;
-  final String dayLabel;
-
-  const _WorkoutHeaderCard({
-    required this.blockTitle,
-    required this.workoutTitle,
-    required this.runNumber,
-    required this.dayLabel,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Card(
-      color: Colors.black,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    blockTitle,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    workoutTitle,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text('Run $runNumber', style: const TextStyle(color: Colors.white70)),
-                  if (dayLabel.isNotEmpty)
-                    Text(dayLabel, style: const TextStyle(color: Colors.white70)),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _WorkoutTotalsFooter extends StatelessWidget {
   final double workoutScore;
+  final double previousWorkoutScore;
   final double totalWorkload;
 
   const _WorkoutTotalsFooter({
     required this.workoutScore,
+    required this.previousWorkoutScore,
     required this.totalWorkload,
   });
 
@@ -459,9 +421,11 @@ class _WorkoutTotalsFooter extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Workout Score: ${workoutScore.toStringAsFixed(2)}'),
-                    // TODO: Add previous workout score when surfaced by workout query data.
-                    Text('Total Workload: ${totalWorkload.toStringAsFixed(0)}'),
+                    Text('Workout Score: ${workoutScore.toStringAsFixed(1)}'),
+                    Text(
+                      'Previous Score: ${previousWorkoutScore.toStringAsFixed(1)}',
+                    ),
+                    Text('Total Workload: ${totalWorkload.toStringAsFixed(1)} lbs'),
                   ],
                 ),
               ),
@@ -508,6 +472,16 @@ class _LiftCardState extends State<_LiftCard> {
 
     final sets = int.tryParse(parts[0].trim());
     return sets ?? 4;
+  }
+
+  String _displayRepScheme(String repScheme) {
+    final parts = repScheme.toLowerCase().split('x');
+    if (parts.length != 2) return repScheme;
+
+    final sets = int.tryParse(parts[0].trim());
+    final reps = int.tryParse(parts[1].trim());
+    if (sets == null || reps == null) return repScheme;
+    return '$sets Sets x $reps Reps';
   }
 
   @override
@@ -885,7 +859,7 @@ class _LiftCardState extends State<_LiftCard> {
         _cell(
           color: const Color(0xFF1565C0),
           child: Text(
-            totalScore.toStringAsFixed(2),
+            totalScore.toStringAsFixed(1),
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
@@ -910,7 +884,7 @@ class _LiftCardState extends State<_LiftCard> {
         _cell(
           color: const Color(0xFF0D47A1),
           child: Text(
-            previousTotalScore.toStringAsFixed(2),
+            previousTotalScore.toStringAsFixed(1),
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
@@ -974,7 +948,7 @@ class _LiftCardState extends State<_LiftCard> {
             ),
             const SizedBox(height: 4),
             Text(
-              repScheme,
+              _displayRepScheme(repScheme),
               style: const TextStyle(color: Colors.white),
             ),
             if (liftInfo.isNotEmpty) ...[
