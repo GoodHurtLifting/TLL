@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -330,15 +331,22 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
     ((workoutTotals['total_workload'] as num?) ?? 0).toDouble();
 
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text('$blockTitle - $workoutTitle'),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+      ),
+      bottomNavigationBar: _WorkoutTotalsFooter(
+        workoutScore: workoutScore,
+        totalWorkload: totalWorkload,
       ),
       body: AbsorbPointer(
         absorbing: _isSaving,
         child: RefreshIndicator(
           onRefresh: _loadWorkout,
           child: ListView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 20),
             children: [
               _WorkoutHeaderCard(
                 blockTitle: blockTitle,
@@ -354,11 +362,6 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
                 ),
                 const SizedBox(height: 12),
               ],
-              const SizedBox(height: 8),
-              _WorkoutTotalsFooter(
-                workoutScore: workoutScore,
-                totalWorkload: totalWorkload,
-              ),
               const SizedBox(height: 16),
               SizedBox(
                 height: 48,
@@ -393,6 +396,7 @@ class _WorkoutHeaderCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Card(
+      color: Colors.black,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -404,16 +408,21 @@ class _WorkoutHeaderCard extends StatelessWidget {
                 children: [
                   Text(
                     blockTitle,
-                    style: theme.textTheme.titleLarge,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: Colors.white,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     workoutTitle,
-                    style: theme.textTheme.titleMedium,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: Colors.white,
+                    ),
                   ),
                   const SizedBox(height: 4),
-                  Text('Run $runNumber'),
-                  if (dayLabel.isNotEmpty) Text(dayLabel),
+                  Text('Run $runNumber', style: const TextStyle(color: Colors.white70)),
+                  if (dayLabel.isNotEmpty)
+                    Text(dayLabel, style: const TextStyle(color: Colors.white70)),
                 ],
               ),
             ),
@@ -435,22 +444,30 @@ class _WorkoutTotalsFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    return Container(
+      color: Colors.black,
+      child: SafeArea(
+        top: false,
+        minimum: const EdgeInsets.fromLTRB(12, 8, 12, 8),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
-              child: Text(
-                'Workout Score: ${workoutScore.toStringAsFixed(2)}',
+              child: DefaultTextStyle(
+                style: const TextStyle(color: Colors.white, fontSize: 13),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Workout Score: ${workoutScore.toStringAsFixed(2)}'),
+                    // TODO: Add previous workout score when surfaced by workout query data.
+                    Text('Total Workload: ${totalWorkload.toStringAsFixed(0)}'),
+                  ],
+                ),
               ),
             ),
-            Expanded(
-              child: Text(
-                'Total Workload: ${totalWorkload.toStringAsFixed(0)}',
-                textAlign: TextAlign.right,
-              ),
-            ),
+            const SizedBox(width: 8),
+            const _RestTimer(),
           ],
         ),
       ),
@@ -641,25 +658,31 @@ class _LiftCardState extends State<_LiftCard> {
   TableRow _buildHeaderRow(bool showsRecommended) {
     return TableRow(
       children: [
-        _cell(child: const Text('')),
+        _cell(
+          child: const Text(
+            'Set',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 12),
+          ),
+        ),
         _cell(
           child: const Text(
             'Reps',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(color: Colors.white, fontSize: 12),
           ),
         ),
-        _cell(child: const Text('X')),
+        _cell(child: const Text('X', style: TextStyle(color: Colors.white))),
         _cell(
           child: const Text(
             'Weight',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(color: Colors.white, fontSize: 12),
           ),
         ),
         _cell(
           child: const SizedBox.shrink(),
-          color: Colors.black12,
+          color: Colors.black,
           height: 40,
           padding: EdgeInsets.zero,
         ),
@@ -667,15 +690,15 @@ class _LiftCardState extends State<_LiftCard> {
           child: const Text(
             'Prev Reps',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(color: Colors.white, fontSize: 12),
           ),
         ),
-        _cell(child: const Text('X')),
+        _cell(child: const Text('X', style: TextStyle(color: Colors.white))),
         _cell(
           child: Text(
             showsRecommended ? 'Recommended' : 'Prev Weight',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12),
+            style: const TextStyle(color: Colors.white, fontSize: 12),
           ),
         ),
       ],
@@ -717,38 +740,51 @@ class _LiftCardState extends State<_LiftCard> {
           child: Text(
             'Set ${index + 1}',
             textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white),
           ),
         ),
         _cell(
-          color: const Color(0xFFEFEFEF),
+          color: const Color(0xFF2E4F40),
           child: TextField(
             controller: _repsControllers[index],
             focusNode: _repsFocusNodes[index],
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
-              border: InputBorder.none,
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white24),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
               isDense: true,
             ),
           ),
         ),
-        _cell(child: const Text('X')),
+        _cell(child: const Text('X', style: TextStyle(color: Colors.white))),
         _cell(
-          color: const Color(0xFFEFEFEF),
+          color: const Color(0xFF2E4F40),
           child: TextField(
             controller: _weightControllers[index],
             focusNode: _weightFocusNodes[index],
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
-              border: InputBorder.none,
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white24),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
               isDense: true,
             ),
           ),
         ),
         _cell(
           child: const SizedBox.shrink(),
-          color: Colors.black12,
+          color: Colors.black,
           height: 40,
           padding: EdgeInsets.zero,
         ),
@@ -756,15 +792,16 @@ class _LiftCardState extends State<_LiftCard> {
           child: Text(
             prevRepsText,
             textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white70),
           ),
         ),
-        _cell(child: const Text('X')),
+        _cell(child: const Text('X', style: TextStyle(color: Colors.white70))),
         _cell(
           child: Text(
             rightSideText,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: showsRecommended ? Colors.red : null,
+              color: showsRecommended ? Colors.redAccent : Colors.white70,
               fontWeight: showsRecommended ? FontWeight.bold : FontWeight.normal,
             ),
           ),
@@ -785,29 +822,29 @@ class _LiftCardState extends State<_LiftCard> {
           child: const Text(
             'Total',
             textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
         _cell(
-          color: Colors.grey.shade300,
+          color: const Color(0xFF3A3A3A),
           child: Text(
             totalReps.toString(),
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16, color: Colors.white),
           ),
         ),
-        _cell(child: const Text('')),
+        _cell(child: const Text('', style: TextStyle(color: Colors.white))),
         _cell(
-          color: Colors.grey.shade300,
+          color: const Color(0xFF3A3A3A),
           child: Text(
             totalWorkload.toStringAsFixed(0),
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16, color: Colors.white),
           ),
         ),
         _cell(
           child: const SizedBox.shrink(),
-          color: Colors.black12,
+          color: Colors.black,
           height: 40,
           padding: EdgeInsets.zero,
         ),
@@ -815,13 +852,15 @@ class _LiftCardState extends State<_LiftCard> {
           child: Text(
             previousTotalReps.toString(),
             textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white70),
           ),
         ),
-        _cell(child: const Text('')),
+        _cell(child: const Text('', style: TextStyle(color: Colors.white70))),
         _cell(
           child: Text(
             previousTotalWorkload.toStringAsFixed(0),
             textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white70),
           ),
         ),
       ],
@@ -834,16 +873,17 @@ class _LiftCardState extends State<_LiftCard> {
   }) {
     return TableRow(
       children: [
-        _cell(child: const Text('')),
+        _cell(child: const Text('', style: TextStyle(color: Colors.white))),
         _cell(
           child: const Text(
             'Score',
             textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white),
           ),
         ),
-        _cell(child: const Text('')),
+        _cell(child: const Text('', style: TextStyle(color: Colors.white))),
         _cell(
-          color: Colors.blue.shade700,
+          color: const Color(0xFF1565C0),
           child: Text(
             totalScore.toStringAsFixed(2),
             textAlign: TextAlign.center,
@@ -855,7 +895,7 @@ class _LiftCardState extends State<_LiftCard> {
         ),
         _cell(
           child: const SizedBox.shrink(),
-          color: Colors.black12,
+          color: Colors.black,
           height: 40,
           padding: EdgeInsets.zero,
         ),
@@ -866,9 +906,9 @@ class _LiftCardState extends State<_LiftCard> {
             style: TextStyle(color: Colors.grey.shade600),
           ),
         ),
-        _cell(child: const Text('')),
+        _cell(child: const Text('', style: TextStyle(color: Colors.white70))),
         _cell(
-          color: Colors.blue.shade900,
+          color: const Color(0xFF0D47A1),
           child: Text(
             previousTotalScore.toStringAsFixed(2),
             textAlign: TextAlign.center,
@@ -912,6 +952,8 @@ class _LiftCardState extends State<_LiftCard> {
     final showsRecommended = recommendedWeight != null;
 
     return Card(
+      color: Colors.black,
+      margin: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -931,7 +973,10 @@ class _LiftCardState extends State<_LiftCard> {
               ),
             ),
             const SizedBox(height: 4),
-            Text(repScheme),
+            Text(
+              repScheme,
+              style: const TextStyle(color: Colors.white),
+            ),
             if (liftInfo.isNotEmpty) ...[
               const SizedBox(height: 4),
               Align(
@@ -939,7 +984,7 @@ class _LiftCardState extends State<_LiftCard> {
                 child: Text(
                   liftInfo,
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14, color: Colors.white70),
                 ),
               ),
             ],
@@ -956,6 +1001,9 @@ class _LiftCardState extends State<_LiftCard> {
                 7: FlexColumnWidth(1.15),
               },
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              border: const TableBorder(
+                horizontalInside: BorderSide(color: Colors.white12, width: 0.5),
+              ),
               children: [
                 _buildHeaderRow(showsRecommended),
                 ...List.generate(
@@ -984,6 +1032,103 @@ class _LiftCardState extends State<_LiftCard> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _RestTimer extends StatefulWidget {
+  const _RestTimer();
+
+  @override
+  State<_RestTimer> createState() => _RestTimerState();
+}
+
+class _RestTimerState extends State<_RestTimer> {
+  static const List<int> _presets = [30, 60, 90, 120];
+  Timer? _timer;
+  int _secondsRemaining = 0;
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startTimer(int seconds) {
+    _timer?.cancel();
+    setState(() {
+      _secondsRemaining = seconds;
+    });
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+      if (_secondsRemaining == 0) {
+        timer.cancel();
+        return;
+      }
+      setState(() {
+        _secondsRemaining -= 1;
+      });
+    });
+  }
+
+  String get _display {
+    final minutes = _secondsRemaining ~/ 60;
+    final seconds = _secondsRemaining % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isZero = _secondsRemaining == 0;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              _display,
+              style: TextStyle(
+                color: isZero ? Colors.red : Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            IconButton(
+              onPressed: () => _startTimer(_secondsRemaining == 0 ? 60 : _secondsRemaining),
+              icon: const Icon(Icons.refresh, color: Colors.white, size: 18),
+              visualDensity: VisualDensity.compact,
+              padding: const EdgeInsets.all(2),
+              constraints: const BoxConstraints(),
+              tooltip: 'Restart',
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Wrap(
+          spacing: 4,
+          children: _presets
+              .map(
+                (seconds) => OutlinedButton(
+                  onPressed: () => _startTimer(seconds),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    side: const BorderSide(color: Colors.white24),
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    minimumSize: const Size(0, 28),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: Text(
+                    seconds >= 120 ? '2m' : '${seconds}s',
+                    style: const TextStyle(fontSize: 11),
+                  ),
+                ),
+              )
+              .toList(),
+        ),
+      ],
     );
   }
 }
