@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_lift_league/data/local/services/app_launch_service.dart';
 import 'package:the_lift_league/features/blocks/presentation/block_dashboard_screen.dart';
+import 'package:the_lift_league/features/blocks/presentation/block_summary_screen.dart';
 
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
@@ -70,7 +71,7 @@ class _AppShellState extends State<AppShell> {
       );
     }
 
-    return BlockDashboardScreen(
+    return BlockSummaryScreen(
       blockInstanceId: _blockInstanceId!,
     );
   }

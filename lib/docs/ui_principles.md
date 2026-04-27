@@ -295,6 +295,7 @@ The visual tone should feel:
 - confident
 - not cartoonish
 - not corporate-soft
+- meta
 
 ---
 
