@@ -509,6 +509,16 @@ class _MilestonesCard extends StatelessWidget {
         .join(' ');
   }
 
+  String? _badgeAssetPath(String badgeKey) {
+    if (badgeKey == BadgeKeys.lunchLady) {
+      return 'assets/badges/lunchLady_01.png';
+    }
+    if (badgeKey == BadgeKeys.meatWagon) {
+      return 'assets/badges/meatWagon_01.png';
+    }
+    return null;
+  }
+
   Map<String, Object?>? _parseMetadata(Object? rawMetadata) {
     if (rawMetadata is! String || rawMetadata.isEmpty) {
       return null;
@@ -554,8 +564,82 @@ class _MilestonesCard extends StatelessWidget {
     return null;
   }
 
+  List<_GroupedBadge> _groupBadges() {
+    final grouped = <String, _GroupedBadgeBuilder>{};
+
+    for (final badge in badges) {
+      final badgeKey = (badge['badge_key'] as String?) ?? '';
+      if (badgeKey.isEmpty) {
+        continue;
+      }
+
+      final detail = _buildBadgeDetail(
+        badgeKey: badgeKey,
+        badge: badge,
+      );
+
+      final existing = grouped[badgeKey];
+      if (existing == null) {
+        grouped[badgeKey] = _GroupedBadgeBuilder(
+          badgeKey: badgeKey,
+          count: 1,
+          details: detail == null ? <String>[] : <String>[detail],
+        );
+      } else {
+        existing.count += 1;
+        if (detail != null && !existing.details.contains(detail)) {
+          existing.details.add(detail);
+        }
+      }
+    }
+
+    return grouped.values
+        .map(
+          (entry) => _GroupedBadge(
+            badgeKey: entry.badgeKey,
+            count: entry.count,
+            details: entry.details,
+          ),
+        )
+        .toList();
+  }
+
+  Widget _buildBadgeImage(String badgeKey) {
+    final badgeAssetPath = _badgeAssetPath(badgeKey);
+
+    if (badgeAssetPath == null) {
+      return _buildBadgeFallback();
+    }
+
+    return Image.asset(
+      badgeAssetPath,
+      height: 90,
+      width: 90,
+      fit: BoxFit.contain,
+      errorBuilder: (_, __, ___) => _buildBadgeFallback(),
+    );
+  }
+
+  Widget _buildBadgeFallback() {
+    return Container(
+      height: 90,
+      width: 90,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white12),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: const Icon(
+        Icons.emoji_events_outlined,
+        color: Colors.white54,
+        size: 36,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final groupedBadges = _groupBadges();
+
     return Container(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -573,7 +657,7 @@ class _MilestonesCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            if (badges.isEmpty)
+            if (groupedBadges.isEmpty)
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -582,51 +666,54 @@ class _MilestonesCard extends StatelessWidget {
                 ),
               )
             else
-              ...badges.map((badge) {
-                final badgeKey = (badge['badge_key'] as String?) ?? '';
-                final awardedAt = (badge['awarded_at'] as String?) ?? '';
-                final detail = _buildBadgeDetail(
-                  badgeKey: badgeKey,
-                  badge: badge,
-                );
+              ...groupedBadges.map((badge) {
+                final detailText =
+                    badge.details.isEmpty ? null : badge.details.join(' • ');
+                final countText = badge.count > 1
+                    ? 'x${badge.count} earned this block'
+                    : 'earned this block';
 
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Column(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              _formatBadgeKey(badgeKey),
+                      _buildBadgeImage(badge.badgeKey),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _formatBadgeKey(badge.badgeKey),
                               style: const TextStyle(
                                 color: Colors.white,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                          ),
-                          Text(
-                            awardedAt.isEmpty
-                                ? ''
-                                : awardedAt.split('T').first,
-                            style: const TextStyle(
-                              color: Colors.white54,
-                              fontSize: 12,
+                            const SizedBox(height: 4),
+                            Text(
+                              countText,
+                              style: const TextStyle(
+                                color: Colors.white70,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      if (detail != null) ...[
-                        const SizedBox(height: 2),
-                        Text(
-                          detail,
-                          style: const TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12,
-                          ),
+                            if (detailText != null) ...[
+                              const SizedBox(height: 4),
+                              Text(
+                                detailText,
+                                style: const TextStyle(
+                                  color: Colors.white54,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
-                      ],
+                      ),
                     ],
                   ),
                 );
@@ -637,6 +724,30 @@ class _MilestonesCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class _GroupedBadgeBuilder {
+  final String badgeKey;
+  int count;
+  final List<String> details;
+
+  _GroupedBadgeBuilder({
+    required this.badgeKey,
+    required this.count,
+    required this.details,
+  });
+}
+
+class _GroupedBadge {
+  final String badgeKey;
+  final int count;
+  final List<String> details;
+
+  const _GroupedBadge({
+    required this.badgeKey,
+    required this.count,
+    required this.details,
+  });
 }
 
 class _SummaryWorkoutCard extends StatelessWidget {
