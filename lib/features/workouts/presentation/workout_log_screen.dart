@@ -465,7 +465,14 @@ class _WorkoutTotalsFooter extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Workout Score: ${workoutScore.toStringAsFixed(1)}'),
+                    Text(
+                      'Workout Score: ${workoutScore.toStringAsFixed(1)}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                     Text(
                       'Previous Score: ${previousWorkoutScore.toStringAsFixed(1)}',
                     ),
