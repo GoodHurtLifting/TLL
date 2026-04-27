@@ -91,11 +91,12 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Save failed: $e')),
       );
+    } finally {
+      if (!mounted) return;
+
       setState(() {
         _isSaving = false;
       });
-    } finally {
-      if (!mounted) return;
     }
   }
 
@@ -626,7 +627,7 @@ class _LiftCardState extends State<_LiftCard> {
             onDone: _handleDone,
             onMoveRight: _moveRight,
             onMoveDown: _moveDown,
-            onFillDown: _fillDown,
+            onFillDown: () => unawaited(_fillDown()),
           ),
         );
         return;
@@ -641,7 +642,7 @@ class _LiftCardState extends State<_LiftCard> {
             onDone: _handleDone,
             onMoveRight: _moveRight,
             onMoveDown: _moveDown,
-            onFillDown: _fillDown,
+            onFillDown: () => unawaited(_fillDown()),
           ),
         );
         return;
@@ -700,17 +701,21 @@ class _LiftCardState extends State<_LiftCard> {
     }
   }
 
-  void _fillDown() {
+  Future<void> _fillDown() async {
     final controller = _activeController();
     final column = _activeColumn;
     if (controller == null || column == null) return;
 
     final value = controller.text;
     final targetControllers =
-        column == _EditableColumn.reps ? _repsControllers : _weightControllers;
+    column == _EditableColumn.reps ? _repsControllers : _weightControllers;
 
     for (final target in targetControllers) {
       target.text = value;
+    }
+
+    for (var i = 0; i < targetControllers.length; i++) {
+      await _autoSaveSet(index: i);
     }
   }
 

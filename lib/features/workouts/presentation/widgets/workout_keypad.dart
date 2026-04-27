@@ -21,8 +21,9 @@ class WorkoutKeypad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF0F0F0F),
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 10),
+      color: Colors.black,
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 10),
+      constraints: const BoxConstraints(maxHeight: 240),
       child: SafeArea(
         top: false,
         child: Column(
@@ -85,28 +86,65 @@ class WorkoutKeypad extends StatelessWidget {
   }
 
   Widget _key(String label, VoidCallback onTap) {
-    return OutlinedButton(
-      onPressed: onTap,
-      style: _keyStyle(),
-      child: Text(label, style: const TextStyle(fontSize: 18)),
+    return _padButton(
+      onTap: onTap,
+      child: Text(
+        label,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 
   Widget _fnKey(String label, VoidCallback onTap) {
-    return OutlinedButton(
-      onPressed: onTap,
-      style: _keyStyle(backgroundColor: const Color(0xFF1D1D1D)),
-      child: Text(label, style: const TextStyle(fontSize: 16)),
+    Widget child;
+
+    if (label == '⌫') {
+      child = const Icon(Icons.backspace, color: Colors.white, size: 26);
+    } else if (label == 'Done') {
+      child = const Icon(Icons.check_circle, color: Colors.white, size: 26);
+    } else if (label == '↓↓') {
+      child = const Icon(Icons.keyboard_double_arrow_down, color: Colors.white, size: 28);
+    } else if (label == '↓') {
+      child = const Icon(Icons.arrow_downward, color: Colors.white, size: 26);
+    } else if (label == '→') {
+      child = const Icon(Icons.arrow_forward, color: Colors.white, size: 26);
+    } else {
+      child = Text(
+        label,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+        ),
+      );
+    }
+
+    return _padButton(
+      onTap: onTap,
+      child: child,
     );
   }
 
-  ButtonStyle _keyStyle({Color backgroundColor = const Color(0xFF151515)}) {
-    return OutlinedButton.styleFrom(
-      foregroundColor: Colors.white,
-      backgroundColor: backgroundColor,
-      side: const BorderSide(color: Colors.white24),
-      minimumSize: const Size.fromHeight(44),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  Widget _padButton({
+    required VoidCallback onTap,
+    required Widget child,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 44,
+        decoration: BoxDecoration(
+          color: Colors.grey[800],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Center(child: child),
+      ),
     );
   }
+
+
 }
