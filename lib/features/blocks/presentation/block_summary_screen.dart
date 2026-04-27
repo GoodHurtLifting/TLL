@@ -69,7 +69,12 @@ class _BlockSummaryScreenState extends State<BlockSummaryScreen> {
     if (_error != null) {
       return Scaffold(
         backgroundColor: _screenBackground,
-        appBar: AppBar(title: const Text('Block Summary')),
+        appBar: AppBar(
+          title: const Text('Block Summary'),
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -134,6 +139,9 @@ class _BlockSummaryScreenState extends State<BlockSummaryScreen> {
       backgroundColor: _screenBackground,
       appBar: AppBar(
         title: const Text('Block Summary'),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        elevation: 0,
       ),
       body: RefreshIndicator(
         onRefresh: _loadSummary,
@@ -223,15 +231,6 @@ class _SummaryHeaderCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
-              'Summary',
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 12,
-                letterSpacing: 0.4,
-              ),
-            ),
-            const SizedBox(height: 6),
             if (category.isNotEmpty)
               Text(
                 category,
@@ -724,7 +723,7 @@ class _StatTile extends StatelessWidget {
   const _StatTile({
     required this.label,
     required this.value,
-    this.valueColor = Colors.white,
+    this.valueColor = const Color(0xFF1C1C1C),
   });
 
   @override

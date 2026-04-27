@@ -53,6 +53,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+    - assets/badges/lunchLady_01.png
+    - assets/badges/meatWagon_01.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

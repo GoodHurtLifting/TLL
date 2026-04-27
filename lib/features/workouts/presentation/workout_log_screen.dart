@@ -251,6 +251,7 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
       context: context,
       title: 'Lunch Lady',
       icon: Icons.emoji_events_outlined,
+      assetPath: 'assets/badges/lunchLady_01.png',
       message: 'New PR on a big 3 lift.',
       detail: formattedLiftKey == null ? null : 'Lift: $formattedLiftKey',
     );
@@ -282,6 +283,7 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
       context: context,
       title: 'Meat Wagon',
       icon: Icons.local_shipping_outlined,
+      assetPath: 'assets/badges/meatWagon_01.png',
       message: 'You crossed another lifetime workload milestone.',
       detail: thresholdLbs == null ? null : 'Milestone: $thresholdLbs lbs',
     );

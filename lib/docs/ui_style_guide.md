@@ -69,3 +69,10 @@
 - Do not refactor working logic during visual cleanup.
 - Make visual changes surgically.
 - Keep files modular when adding reusable widgets.
+
+## App Bars
+- App bars should use black background.
+- App bar text/icons should be white.
+- App bar navigation should be white left pointing arrow to go back, placed on the left side of bar.
+- Avoid default Material light app bars.
+- Use elevation: 0 unless a shadow is intentionally needed.
