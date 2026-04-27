@@ -9,6 +9,7 @@ import '../../../data/local/services/workout_completion_service.dart';
 import '../../../data/local/services/workout_query_service.dart';
 import '../../blocks/presentation/block_summary_screen.dart';
 import 'widgets/badge_award_dialog.dart';
+import 'widgets/workout_keypad.dart';
 
 class WorkoutLogScreen extends StatefulWidget {
   final int workoutInstanceId;
@@ -29,6 +30,7 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
   bool _meatWagonShown = false;
   Map<String, Object?>? _workoutData;
   String? _error;
+  _KeypadBinding? _activeKeypadBinding;
 
   @override
   void initState() {
@@ -347,12 +349,18 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
       body: RefreshIndicator(
           onRefresh: _loadWorkout,
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 20),
+            padding: EdgeInsets.fromLTRB(
+              12,
+              12,
+              12,
+              _activeKeypadBinding == null ? 20 : 240,
+            ),
             children: [
               for (var index = 0; index < lifts.length; index++) ...[
                 _LiftCard(
                   liftBundle: lifts[index],
                   onSaveSet: _saveSet,
+                  onActiveFieldChanged: _handleActiveFieldChanged,
                 ),
                 if (index < lifts.length - 1)
                   const Padding(
@@ -386,10 +394,47 @@ class _WorkoutLogScreenState extends State<WorkoutLogScreen> {
             ],
           ),
         ),
-
+      bottomSheet: _activeKeypadBinding == null
+          ? null
+          : WorkoutKeypad(
+              onNumberTap: _activeKeypadBinding!.onInput,
+              onBackspace: _activeKeypadBinding!.onBackspace,
+              onDone: _activeKeypadBinding!.onDone,
+              onMoveRight: _activeKeypadBinding!.onMoveRight,
+              onMoveDown: _activeKeypadBinding!.onMoveDown,
+              onFillDown: _activeKeypadBinding!.onFillDown,
+            ),
     );
   }
+
+  void _handleActiveFieldChanged(_KeypadBinding? binding) {
+    if (!mounted) return;
+    if (_activeKeypadBinding == binding) return;
+    setState(() {
+      _activeKeypadBinding = binding;
+    });
+  }
 }
+
+class _KeypadBinding {
+  final ValueChanged<String> onInput;
+  final VoidCallback onBackspace;
+  final VoidCallback onDone;
+  final VoidCallback onMoveRight;
+  final VoidCallback onMoveDown;
+  final VoidCallback onFillDown;
+
+  const _KeypadBinding({
+    required this.onInput,
+    required this.onBackspace,
+    required this.onDone,
+    required this.onMoveRight,
+    required this.onMoveDown,
+    required this.onFillDown,
+  });
+}
+
+enum _EditableColumn { reps, weight }
 
 class _WorkoutTotalsFooter extends StatelessWidget {
   final double workoutScore;
@@ -445,10 +490,12 @@ class _LiftCard extends StatefulWidget {
   required int reps,
   required double? weight,
   }) onSaveSet;
+  final ValueChanged<_KeypadBinding?> onActiveFieldChanged;
 
   const _LiftCard({
     required this.liftBundle,
     required this.onSaveSet,
+    required this.onActiveFieldChanged,
   });
 
   @override
@@ -463,6 +510,8 @@ class _LiftCardState extends State<_LiftCard> {
   late final List<int?> _lastSavedReps;
   late final List<double?> _lastSavedWeight;
   bool _isAutoSaving = false;
+  int? _activeSetIndex;
+  _EditableColumn? _activeColumn;
 
   int _parseSetCount(String repScheme) {
     final parts = repScheme.toLowerCase().split('x');
@@ -520,19 +569,20 @@ class _LiftCardState extends State<_LiftCard> {
 
     _repsFocusNodes = List.generate(setCount, (index) {
       final node = FocusNode();
-      node.addListener(() => _handleFieldBlur(index: index));
+      node.addListener(() => _handleFocusChange(index: index));
       return node;
     });
 
     _weightFocusNodes = List.generate(setCount, (index) {
       final node = FocusNode();
-      node.addListener(() => _handleFieldBlur(index: index));
+      node.addListener(() => _handleFocusChange(index: index));
       return node;
     });
   }
 
   @override
   void dispose() {
+    widget.onActiveFieldChanged(null);
     for (final controller in _repsControllers) {
       controller.dispose();
     }
@@ -557,6 +607,111 @@ class _LiftCardState extends State<_LiftCard> {
     }
 
     await _autoSaveSet(index: index);
+  }
+
+  void _handleFocusChange({required int index}) {
+    unawaited(_handleFieldBlur(index: index));
+    _updateActiveFieldBinding();
+  }
+
+  void _updateActiveFieldBinding() {
+    for (var i = 0; i < _repsFocusNodes.length; i++) {
+      if (_repsFocusNodes[i].hasFocus) {
+        _activeSetIndex = i;
+        _activeColumn = _EditableColumn.reps;
+        widget.onActiveFieldChanged(
+          _KeypadBinding(
+            onInput: _handleKeypadInput,
+            onBackspace: _handleBackspace,
+            onDone: _handleDone,
+            onMoveRight: _moveRight,
+            onMoveDown: _moveDown,
+            onFillDown: _fillDown,
+          ),
+        );
+        return;
+      }
+      if (_weightFocusNodes[i].hasFocus) {
+        _activeSetIndex = i;
+        _activeColumn = _EditableColumn.weight;
+        widget.onActiveFieldChanged(
+          _KeypadBinding(
+            onInput: _handleKeypadInput,
+            onBackspace: _handleBackspace,
+            onDone: _handleDone,
+            onMoveRight: _moveRight,
+            onMoveDown: _moveDown,
+            onFillDown: _fillDown,
+          ),
+        );
+        return;
+      }
+    }
+
+    _activeSetIndex = null;
+    _activeColumn = null;
+    widget.onActiveFieldChanged(null);
+  }
+
+  TextEditingController? _activeController() {
+    final setIndex = _activeSetIndex;
+    final column = _activeColumn;
+    if (setIndex == null || column == null) return null;
+
+    return column == _EditableColumn.reps
+        ? _repsControllers[setIndex]
+        : _weightControllers[setIndex];
+  }
+
+  void _handleKeypadInput(String value) {
+    final controller = _activeController();
+    if (controller == null) return;
+    if (value == '.' && controller.text.contains('.')) return;
+    controller.text += value;
+  }
+
+  void _handleBackspace() {
+    final controller = _activeController();
+    if (controller == null || controller.text.isEmpty) return;
+    controller.text = controller.text.substring(0, controller.text.length - 1);
+  }
+
+  void _handleDone() {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
+  void _moveRight() {
+    final setIndex = _activeSetIndex;
+    if (setIndex == null) return;
+    if (_activeColumn != _EditableColumn.reps) return;
+    _weightFocusNodes[setIndex].requestFocus();
+  }
+
+  void _moveDown() {
+    final setIndex = _activeSetIndex;
+    final column = _activeColumn;
+    if (setIndex == null || column == null) return;
+    if (setIndex >= _repsControllers.length - 1) return;
+
+    if (column == _EditableColumn.reps) {
+      _repsFocusNodes[setIndex + 1].requestFocus();
+    } else {
+      _weightFocusNodes[setIndex + 1].requestFocus();
+    }
+  }
+
+  void _fillDown() {
+    final controller = _activeController();
+    final column = _activeColumn;
+    if (controller == null || column == null) return;
+
+    final value = controller.text;
+    final targetControllers =
+        column == _EditableColumn.reps ? _repsControllers : _weightControllers;
+
+    for (final target in targetControllers) {
+      target.text = value;
+    }
   }
 
   Future<void> _autoSaveSet({required int index}) async {
@@ -720,7 +875,8 @@ class _LiftCardState extends State<_LiftCard> {
           child: TextField(
             controller: _repsControllers[index],
             focusNode: _repsFocusNodes[index],
-            keyboardType: TextInputType.number,
+            readOnly: true,
+            showCursor: true,
             textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
@@ -740,7 +896,8 @@ class _LiftCardState extends State<_LiftCard> {
           child: TextField(
             controller: _weightControllers[index],
             focusNode: _weightFocusNodes[index],
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            readOnly: true,
+            showCursor: true,
             textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
