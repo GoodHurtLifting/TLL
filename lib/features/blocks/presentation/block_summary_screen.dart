@@ -18,6 +18,9 @@ class BlockSummaryScreen extends StatefulWidget {
 }
 
 class _BlockSummaryScreenState extends State<BlockSummaryScreen> {
+  static const Color _screenBackground = Colors.black;
+  static const Color _primaryText = Colors.white;
+
   bool _isLoading = true;
   String? _error;
   Map<String, Object?>? _data;
@@ -65,11 +68,15 @@ class _BlockSummaryScreenState extends State<BlockSummaryScreen> {
 
     if (_error != null) {
       return Scaffold(
+        backgroundColor: _screenBackground,
         appBar: AppBar(title: const Text('Block Summary')),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Text(_error!),
+            child: Text(
+              _error!,
+              style: const TextStyle(color: _primaryText),
+            ),
           ),
         ),
       );
@@ -124,6 +131,7 @@ class _BlockSummaryScreenState extends State<BlockSummaryScreen> {
         totalWorkoutCount;
 
     return Scaffold(
+      backgroundColor: _screenBackground,
       appBar: AppBar(
         title: const Text('Block Summary'),
       ),
@@ -167,8 +175,14 @@ class _BlockSummaryScreenState extends State<BlockSummaryScreen> {
             const SizedBox(height: 16),
             Text(
               'Workout Details',
-              style: Theme.of(context).textTheme.titleMedium,
+              style: const TextStyle(
+                color: _primaryText,
+                fontSize: 19,
+                fontWeight: FontWeight.w700,
+              ),
             ),
+            const SizedBox(height: 8),
+            const Divider(color: Colors.white24, height: 1),
             const SizedBox(height: 8),
             for (final workout in workouts) ...[
               _SummaryWorkoutCard(workout: workout),
@@ -194,21 +208,45 @@ class _SummaryHeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(bottom: 12),
         child: Column(
           children: [
             Text(
               blockTitle,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.w800,
+              ),
             ),
             const SizedBox(height: 4),
-            const Text('Summary'),
+            const Text(
+              'Summary',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 12,
+                letterSpacing: 0.4,
+              ),
+            ),
             const SizedBox(height: 6),
-            if (category.isNotEmpty) Text(category),
-            Text('Run $runNumber'),
+            if (category.isNotEmpty)
+              Text(
+                category,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            Text(
+              'Run $runNumber',
+              style: const TextStyle(color: Colors.white70, fontSize: 13),
+            ),
+            const SizedBox(height: 12),
+            const Divider(color: Colors.white24, height: 1),
           ],
         ),
       ),
@@ -233,16 +271,20 @@ class _OverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: const Text(
                 'Overview',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -252,12 +294,14 @@ class _OverviewCard extends StatelessWidget {
                   child: _StatTile(
                     label: 'Block Score',
                     value: blockScore.toStringAsFixed(2),
+                    valueColor: const Color(0xFF1565C0),
                   ),
                 ),
                 Expanded(
                   child: _StatTile(
                     label: 'Total Workload',
                     value: totalWorkload.toStringAsFixed(0),
+                    valueColor: const Color(0xFF3A3A3A),
                   ),
                 ),
               ],
@@ -269,16 +313,20 @@ class _OverviewCard extends StatelessWidget {
                   child: _StatTile(
                     label: 'Workouts',
                     value: '$completedWorkoutCount / $totalWorkoutCount',
+                    valueColor: const Color(0xFF3A3A3A),
                   ),
                 ),
                 Expanded(
                   child: _StatTile(
                     label: 'Days Taken',
                     value: trainingDays.toString(),
+                    valueColor: const Color(0xFF3A3A3A),
                   ),
                 ),
               ],
             ),
+            const SizedBox(height: 12),
+            const Divider(color: Colors.white12, height: 1),
           ],
         ),
       ),
@@ -313,16 +361,20 @@ class _PlanAdherenceCard extends StatelessWidget {
         ? 0.0
         : completedWorkoutCount / trainingDays;
 
-    return Card(
+    return Container(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: const Text(
                 'Plan Adherence',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -345,15 +397,21 @@ class _PlanAdherenceCard extends StatelessWidget {
             const SizedBox(height: 10),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(adherenceLabel),
+              child: Text(
+                adherenceLabel,
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
             const SizedBox(height: 4),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Completed $completedWorkoutCount of $totalWorkoutCount scheduled workouts in $trainingDays training days.',
+                style: const TextStyle(color: Colors.white70, fontSize: 13),
               ),
             ),
+            const SizedBox(height: 12),
+            const Divider(color: Colors.white12, height: 1),
           ],
         ),
       ),
@@ -382,16 +440,20 @@ class _ImprovementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: const Text(
                 'Improvements',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -417,6 +479,8 @@ class _ImprovementCard extends StatelessWidget {
                   ? '$mostImprovedTitle (+${mostImprovedDelta.toStringAsFixed(2)})'
                   : '-',
             ),
+            const SizedBox(height: 12),
+            const Divider(color: Colors.white12, height: 1),
           ],
         ),
       ),
@@ -493,23 +557,30 @@ class _MilestonesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: const Text(
                 'Milestones & Badges',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
             const SizedBox(height: 12),
             if (badges.isEmpty)
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text('No badges earned during this block yet.'),
+                child: Text(
+                  'No badges earned during this block yet.',
+                  style: TextStyle(color: Colors.white70),
+                ),
               )
             else
               ...badges.map((badge) {
@@ -528,13 +599,22 @@ class _MilestonesCard extends StatelessWidget {
                       Row(
                         children: [
                           Expanded(
-                            child: Text(_formatBadgeKey(badgeKey)),
+                            child: Text(
+                              _formatBadgeKey(badgeKey),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ),
                           Text(
                             awardedAt.isEmpty
                                 ? ''
                                 : awardedAt.split('T').first,
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: const TextStyle(
+                              color: Colors.white54,
+                              fontSize: 12,
+                            ),
                           ),
                         ],
                       ),
@@ -542,13 +622,17 @@ class _MilestonesCard extends StatelessWidget {
                         const SizedBox(height: 2),
                         Text(
                           detail,
-                          style: Theme.of(context).textTheme.bodySmall,
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                          ),
                         ),
                       ],
                     ],
                   ),
                 );
               }),
+            const Divider(color: Colors.white12, height: 1),
           ],
         ),
       ),
@@ -572,27 +656,38 @@ class _SummaryWorkoutCard extends StatelessWidget {
     ((workout['total_workload'] as num?) ?? 0).toDouble();
     final score = ((workout['workout_score'] as num?) ?? 0).toDouble();
 
-    return Card(
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.white12),
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                   if (dayLabel.isNotEmpty) ...[
                     const SizedBox(height: 2),
                     Text(
                       dayLabel,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: const TextStyle(color: Colors.white70, fontSize: 12),
                     ),
                   ],
                   const SizedBox(height: 4),
                   Text(
                     'Status: $status',
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: const TextStyle(color: Colors.white54, fontSize: 12),
                   ),
                 ],
               ),
@@ -600,9 +695,18 @@ class _SummaryWorkoutCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text('Score: ${score.toStringAsFixed(2)}'),
+                Text(
+                  'Score: ${score.toStringAsFixed(2)}',
+                  style: const TextStyle(
+                    color: Color(0xFF1565C0),
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text('Workload: ${workload.toStringAsFixed(0)}'),
+                Text(
+                  'Workload: ${workload.toStringAsFixed(0)}',
+                  style: const TextStyle(color: Colors.white70),
+                ),
               ],
             ),
           ],
@@ -615,28 +719,46 @@ class _SummaryWorkoutCard extends StatelessWidget {
 class _StatTile extends StatelessWidget {
   final String label;
   final String value;
+  final Color valueColor;
 
   const _StatTile({
     required this.label,
     required this.value,
+    this.valueColor = Colors.white,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+      decoration: BoxDecoration(
+        color: valueColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
       children: [
         Text(
           value,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         const SizedBox(height: 4),
         Text(
           label,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodySmall,
+          style: const TextStyle(
+            color: Colors.white70,
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ],
+      ),
     );
   }
 }
@@ -654,11 +776,20 @@ class _InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: Text(label)),
+        Expanded(
+          child: Text(
+            label,
+            style: const TextStyle(color: Colors.white70),
+          ),
+        ),
         Expanded(
           child: Text(
             value,
             textAlign: TextAlign.right,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ],
