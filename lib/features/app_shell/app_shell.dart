@@ -71,7 +71,7 @@ class _AppShellState extends State<AppShell> {
       );
     }
 
-    return BlockDashboardScreen(
+    return BlockSummaryScreen(
       blockInstanceId: _blockInstanceId!,
     );
   }

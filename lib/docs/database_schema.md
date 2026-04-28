@@ -70,7 +70,6 @@ Columns:
 - default_rep_scheme TEXT
 - lift_info TEXT
 - score_type TEXT NOT NULL
-- score_multiplier REAL
 - input_mode TEXT
 - created_at TEXT
 - updated_at TEXT
@@ -78,6 +77,8 @@ Columns:
 Notes:
 - `lift_key` is the stable app-wide identifier.
 - `score_type` must be one of `multiplier` or `bodyweight`.
+- `score_type` defines the lift’s default scoring family only.
+- `score_multiplier` does not belong in `lift_catalog` because multipliers vary by rep scheme, block, workout, and custom prescription.
 - `input_mode` must be one of `standard` or `per_side` (entered weight/reps are per side and must be doubled in calculations).
 
 ---
@@ -182,10 +183,11 @@ Columns:
 - lift_catalog_id INTEGER NOT NULL
 - sequence_index INTEGER NOT NULL
 - rep_scheme TEXT NOT NULL
-- lift_info_override TEXT
-- score_type_override TEXT
-- score_multiplier_override REAL
-- input_mode_override TEXT
+- lift_info TEXT
+- score_type TEXT
+- score_multiplier REAL
+- score_multiplier_mode TEXT
+- input_mode TEXT
 - reference_source TEXT
 - reference_lift_key TEXT
 - percent_value REAL
@@ -197,6 +199,16 @@ Foreign Keys:
 - lift_catalog_id -> lift_catalog.id
 
 Notes:
+- This table stores the lift prescription for a workout template.
+- `rep_scheme`, `score_type`, `score_multiplier`, and `input_mode` describe how the lift is scored/logged in this workout.
+- For stock blocks, `score_multiplier_mode = fixed` and `score_multiplier` should be prefilled.
+- For custom blocks, `score_multiplier_mode` may be `predictive`, and `score_multiplier` may start as null until enough user logging data exists to calculate it.
+- `score_multiplier_mode` must be one of:
+  - `fixed`
+  - `predictive`
+  - `manual`
+- A multiplier lift must eventually have a `score_multiplier` before official scoring can be finalized.
+- Bodyweight lifts may have `score_multiplier` null.
 - `reference_source` must be one of:
     - `none`
     - `previous_instance_average`
@@ -270,6 +282,7 @@ Columns:
 - lift_info_snapshot TEXT
 - score_type_snapshot TEXT NOT NULL
 - score_multiplier_snapshot REAL
+- score_multiplier_mode_snapshot TEXT
 - input_mode_snapshot TEXT NOT NULL DEFAULT 'standard'
 - reference_source_snapshot TEXT
 - reference_lift_key_snapshot TEXT
@@ -286,6 +299,7 @@ Notes:
 - `score_type_snapshot` must be one of `multiplier` or `bodyweight`.
 - `input_mode_snapshot` must be one of `standard` or `per_side`.
 - `reference_source_snapshot` must be one of `none` or `previous_instance_average`.
+- `score_multiplier_mode_snapshot` preserves whether the multiplier was fixed, predictive, or manual when the lift instance was created/scored.
 ---
 
 ### lift_logs
@@ -433,7 +447,7 @@ Widgets never calculate official totals.
 Stock and custom content must use the same template and instance tables.
 
 ### Rule 4
-Catalog data is global. Template rows may override catalog defaults. Runtime instances snapshot what the user actually ran.
+Catalog data is global and describes lift identity. Template rows define the workout-specific prescription and scoring setup. Runtime instances snapshot what the user actually ran.
 
 ### Rule 5
 Raw user input belongs in `lift_logs`. Derived values belong in totals tables.
@@ -449,3 +463,6 @@ Prescription metadata and scoring metadata are separate concerns. Scoring determ
 
 ### Rule 9
 When a lift uses `% of previous lift`, the recommendation must be based on the average weight across all logged sets from the most recent prior instance of the reference lift, then rounded to the nearest 5 lb in the calculation layer.
+
+### Rule 10
+Score multipliers belong to workout/template lift prescriptions, not the global lift catalog. Stock block multipliers are fixed and predefined. Custom block multipliers may be predictive and assigned after the user logs enough baseline data.
