@@ -16,6 +16,7 @@ class SchemaSql {
       video_url TEXT,
       lift_info TEXT,
       score_type TEXT NOT NULL,
+      equipment TEXT,
       input_mode TEXT NOT NULL DEFAULT 'standard',
       created_at TEXT,
       updated_at TEXT
