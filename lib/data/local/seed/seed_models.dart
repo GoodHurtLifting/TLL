@@ -26,7 +26,6 @@ class SeedLift {
   final String liftKey;
   final String name;
   final String scoreType;
-  final double? scoreMultiplier;
   final String inputMode;
   final List<SeedLiftMuscleGroup> muscleGroups;
 
@@ -34,7 +33,6 @@ class SeedLift {
     required this.liftKey,
     required this.name,
     required this.scoreType,
-    this.scoreMultiplier,
     this.inputMode = 'standard',
     this.muscleGroups = const [],
   });
@@ -44,10 +42,11 @@ class SeedWorkoutLift {
   final String liftKey;
   final int sequenceIndex;
   final String repScheme;
-  final String? liftInfoOverride;
-  final String? scoreTypeOverride;
-  final double? scoreMultiplierOverride;
-  final String? inputModeOverride;
+  final String? liftInfo;
+  final String? scoreType;
+  final double? scoreMultiplier;
+  final String? scoreMultiplierMode;
+  final String? inputMode;
   final String? referenceSource;
   final String? referenceLiftKey;
   final double? percentValue;
@@ -56,10 +55,11 @@ class SeedWorkoutLift {
     required this.liftKey,
     required this.sequenceIndex,
     required this.repScheme,
-    this.liftInfoOverride,
-    this.scoreTypeOverride,
-    this.scoreMultiplierOverride,
-    this.inputModeOverride,
+    this.liftInfo,
+    this.scoreType,
+    this.scoreMultiplier,
+    this.scoreMultiplierMode,
+    this.inputMode,
     this.referenceSource,
     this.referenceLiftKey,
     this.percentValue,
