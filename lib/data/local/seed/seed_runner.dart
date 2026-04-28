@@ -4,9 +4,12 @@ import '../db/db_service.dart';
 import '../db/table_names.dart';
 import 'block_seed.dart';
 import 'lift_catalog_seed.dart';
+import 'seed_validator.dart';
 
 class SeedRunner {
   static Future<void> seedAll() async {
+    SeedValidator.validateAll();
+
     final db = await DbService.instance.database;
 
     await db.transaction((txn) async {
