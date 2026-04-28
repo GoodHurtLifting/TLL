@@ -15,6 +15,7 @@ class LiftCatalogSeed {
       liftKey: 'squat',
       name: 'Squats',
       scoreType: 'multiplier',
+      equipment: 'barbell',
       muscleGroups: [
         SeedLiftMuscleGroup(muscleKey: 'quads', role: 'primary', sortOrder: 1),
         SeedLiftMuscleGroup(muscleKey: 'glutes', role: 'secondary', sortOrder: 2),
@@ -25,6 +26,7 @@ class LiftCatalogSeed {
       liftKey: 'bench_press',
       name: 'Bench Press',
       scoreType: 'multiplier',
+      equipment: 'barbell',
       muscleGroups: [
         SeedLiftMuscleGroup(muscleKey: 'chest', role: 'primary', sortOrder: 1),
         SeedLiftMuscleGroup(muscleKey: 'front_delts', role: 'secondary', sortOrder: 2),
@@ -35,6 +37,7 @@ class LiftCatalogSeed {
       liftKey: 'deadlift',
       name: 'Deadlift',
       scoreType: 'multiplier',
+      equipment: 'barbell',
       muscleGroups: [
         SeedLiftMuscleGroup(muscleKey: 'glutes', role: 'primary', sortOrder: 1),
         SeedLiftMuscleGroup(muscleKey: 'hamstrings', role: 'secondary', sortOrder: 2),
@@ -44,6 +47,7 @@ class LiftCatalogSeed {
       liftKey: 'push_up',
       name: 'Push-Ups',
       scoreType: 'bodyweight',
+      equipment: 'bodyweight',
       inputMode: 'standard',
       muscleGroups: [
         SeedLiftMuscleGroup(muscleKey: 'chest', role: 'primary', sortOrder: 1),

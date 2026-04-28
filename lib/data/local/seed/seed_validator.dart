@@ -15,6 +15,22 @@ class SeedValidator {
     'per_side',
   };
 
+  static const Set<String> _allowedEquipment = {
+    'barbell',
+    'dumbbell',
+    'kettlebell',
+    'machine',
+    'cable',
+    'bodyweight',
+    'band',
+    'smith_machine',
+    'landmine',
+    'rings',
+    'plate',
+    'trap_bar',
+    'other',
+  };
+
   static const Set<String> _allowedMuscleRoles = {
     'primary',
     'secondary',
@@ -72,6 +88,11 @@ class SeedValidator {
       }
       if (!_allowedInputModes.contains(lift.inputMode)) {
         errors.add('Lift ${lift.liftKey} has invalid inputMode: ${lift.inputMode}');
+      }
+      if (lift.equipment != null && !_allowedEquipment.contains(lift.equipment)) {
+        errors.add(
+          'Lift ${lift.liftKey} has unsupported equipment: ${lift.equipment}',
+        );
       }
 
       for (final muscle in lift.muscleGroups) {

@@ -26,6 +26,7 @@ class SeedLift {
   final String liftKey;
   final String name;
   final String scoreType;
+  final String? equipment;
   final String inputMode;
   final List<SeedLiftMuscleGroup> muscleGroups;
 
@@ -33,6 +34,7 @@ class SeedLift {
     required this.liftKey,
     required this.name,
     required this.scoreType,
+    this.equipment,
     this.inputMode = 'standard',
     this.muscleGroups = const [],
   });

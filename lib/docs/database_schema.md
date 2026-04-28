@@ -69,6 +69,7 @@ Columns:
 - video_url TEXT
 - lift_info TEXT
 - score_type TEXT NOT NULL
+- equipment TEXT
 - input_mode TEXT
 - created_at TEXT
 - updated_at TEXT
@@ -77,8 +78,24 @@ Notes:
 - `lift_key` is the stable app-wide identifier.
 - `score_type` must be one of `multiplier` or `bodyweight`.
 - `score_type` defines the lift’s default scoring family only.
+- `equipment` describes the primary equipment normally used for the lift.
+- allowed `equipment` values:
+  - `barbell`
+  - `dumbbell`
+  - `kettlebell`
+  - `machine`
+  - `cable`
+  - `bodyweight`
+  - `band`
+  - `smith_machine`
+  - `landmine`
+  - `rings`
+  - `plate`
+  - `trap_bar`
+  - `other`
 - `score_multiplier` does not belong in `lift_catalog` because multipliers vary by rep scheme, block, workout, and custom prescription.
 - `input_mode` must be one of `standard` or `per_side` (entered weight/reps are per side and must be doubled in calculations).
+- `equipment` belongs in `lift_catalog`, not template tables.
 
 ---
 

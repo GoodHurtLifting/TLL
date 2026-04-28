@@ -44,6 +44,7 @@ class SeedRunner {
           'lift_key': lift.liftKey,
           'name': lift.name,
           'score_type': lift.scoreType,
+          'equipment': lift.equipment,
           'input_mode': lift.inputMode,
         },
         conflictAlgorithm: ConflictAlgorithm.ignore,
