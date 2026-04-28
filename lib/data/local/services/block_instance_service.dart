@@ -97,19 +97,22 @@ class BlockInstanceService {
           final liftName = lift['catalog_name'] as String;
           final repScheme = lift['rep_scheme'] as String;
           final liftInfoSnapshot =
-              (lift['lift_info_override'] as String?) ??
+              (lift['lift_info'] as String?) ??
                   (lift['catalog_lift_info'] as String?);
 
           final scoreTypeSnapshot =
-              (lift['score_type_override'] as String?) ??
+              (lift['score_type'] as String?) ??
                   (lift['catalog_score_type'] as String);
 
           final scoreMultiplierSnapshot =
-              (lift['score_multiplier_override'] as num?) ??
+              (lift['score_multiplier'] as num?) ??
                   (lift['catalog_score_multiplier'] as num?);
 
+          final scoreMultiplierModeSnapshot =
+              (lift['score_multiplier_mode'] as String?) ?? 'per_lift';
+
           final inputModeSnapshot =
-              (lift['input_mode_override'] as String?) ??
+              (lift['input_mode'] as String?) ??
                   (lift['catalog_input_mode'] as String? ?? 'standard');
 
           await txn.insert(
@@ -123,6 +126,7 @@ class BlockInstanceService {
               'lift_info_snapshot': liftInfoSnapshot,
               'score_type_snapshot': scoreTypeSnapshot,
               'score_multiplier_snapshot': scoreMultiplierSnapshot?.toDouble(),
+              'score_multiplier_mode_snapshot': scoreMultiplierModeSnapshot,
               'input_mode_snapshot': inputModeSnapshot,
               'reference_source_snapshot': lift['reference_source'] as String?,
               'reference_lift_key_snapshot':
@@ -200,10 +204,11 @@ class BlockInstanceService {
         wtl.lift_catalog_id,
         wtl.sequence_index,
         wtl.rep_scheme,
-        wtl.lift_info_override,
-        wtl.score_type_override,
-        wtl.score_multiplier_override,
-        wtl.input_mode_override,
+        wtl.lift_info,
+        wtl.score_type,
+        wtl.score_multiplier,
+        wtl.score_multiplier_mode,
+        wtl.input_mode,
         wtl.reference_source,
         wtl.reference_lift_key,
         wtl.percent_value,
