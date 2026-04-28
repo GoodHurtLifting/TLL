@@ -1,7 +1,7 @@
 import 'table_names.dart';
 
 class SchemaSql {
-  static const int dbVersion = 3;
+  static const int dbVersion = 4;
   static const String dbName = 'tll.db';
 
   static const supportedScoreTypes = ['multiplier', 'bodyweight'];
@@ -17,7 +17,6 @@ class SchemaSql {
       default_rep_scheme TEXT,
       lift_info TEXT,
       score_type TEXT NOT NULL,
-      score_multiplier REAL,
       input_mode TEXT NOT NULL DEFAULT 'standard',
       created_at TEXT,
       updated_at TEXT
@@ -86,10 +85,11 @@ class SchemaSql {
       lift_catalog_id INTEGER NOT NULL,
       sequence_index INTEGER NOT NULL,
       rep_scheme TEXT NOT NULL,
-      lift_info_override TEXT,
-      score_type_override TEXT,
-      score_multiplier_override REAL,
-      input_mode_override TEXT,
+      lift_info TEXT,
+      score_type TEXT,
+      score_multiplier REAL,
+      score_multiplier_mode TEXT,
+      input_mode TEXT,
       reference_source TEXT,
       reference_lift_key TEXT,
       percent_value REAL,

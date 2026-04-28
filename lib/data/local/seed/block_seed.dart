@@ -23,6 +23,8 @@ class BlockSeed {
               liftKey: 'bench_press',
               sequenceIndex: 0,
               repScheme: '4x6',
+              scoreMultiplier: 0.006,
+              scoreMultiplierMode: 'fixed',
             ),
             SeedWorkoutLift(
               liftKey: 'push_up',
