@@ -105,8 +105,7 @@ class BlockInstanceService {
                   (lift['catalog_score_type'] as String);
 
           final scoreMultiplierSnapshot =
-              (lift['score_multiplier'] as num?) ??
-                  (lift['catalog_score_multiplier'] as num?);
+              (lift['score_multiplier'] as num?);
 
           final scoreMultiplierModeSnapshot =
               (lift['score_multiplier_mode'] as String?) ?? 'per_lift';
@@ -215,7 +214,6 @@ class BlockInstanceService {
         lc.name AS catalog_name,
         lc.lift_info AS catalog_lift_info,
         lc.score_type AS catalog_score_type,
-        lc.score_multiplier AS catalog_score_multiplier,
         lc.input_mode AS catalog_input_mode
       FROM ${TableNames.workoutTemplateLifts} wtl
       INNER JOIN ${TableNames.liftCatalog} lc
