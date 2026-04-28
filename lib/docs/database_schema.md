@@ -67,7 +67,6 @@ Columns:
 - lift_key TEXT NOT NULL UNIQUE
 - name TEXT NOT NULL
 - video_url TEXT
-- default_rep_scheme TEXT
 - lift_info TEXT
 - score_type TEXT NOT NULL
 - input_mode TEXT
