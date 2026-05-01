@@ -21,6 +21,7 @@ class SeedValidator {
     'kettlebell',
     'machine',
     'cable_machine',
+    'captains_chair',
     'bodyweight',
     'floor',
     'band',
