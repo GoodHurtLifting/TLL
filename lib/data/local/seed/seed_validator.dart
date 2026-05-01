@@ -20,14 +20,16 @@ class SeedValidator {
     'dumbbell',
     'kettlebell',
     'machine',
-    'cable',
+    'cable_machine',
     'bodyweight',
+    'floor',
     'band',
     'smith_machine',
     'landmine',
     'rings',
     'plate',
     'trap_bar',
+    'pull-up_bar',
     'other',
   };
 
