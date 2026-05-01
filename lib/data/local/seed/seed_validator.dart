@@ -16,6 +16,7 @@ class SeedValidator {
   };
 
   static const Set<String> _allowedEquipment = {
+    'ab_wheel',
     'barbell',
     'dumbbell',
     'kettlebell',

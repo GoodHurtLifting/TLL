@@ -50,7 +50,7 @@ const generatedLifts = [
     liftKey: 'assisted_chin_up',
     name: 'Assisted Chin-Up',
     scoreType: 'bodyweight',
-    equipment: 'pull-up bar',
+    equipment: 'pull-up_bar',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -72,7 +72,7 @@ const generatedLifts = [
     liftKey: 'assisted_pull_up',
     name: 'Assisted Pull-Up',
     scoreType: 'bodyweight',
-    equipment: 'pull-up bar',
+    equipment: 'pull-up_bar',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -512,7 +512,7 @@ const generatedLifts = [
     liftKey: 'cable_chest_press',
     name: 'Cable Chest Press',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'chest', role: 'primary', sortOrder: 1),
@@ -523,7 +523,7 @@ const generatedLifts = [
     liftKey: 'cable_close_grip_seated_row',
     name: 'Cable Close Grip Seated Row',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'traps', role: 'primary', sortOrder: 1),
@@ -534,7 +534,7 @@ const generatedLifts = [
     liftKey: 'cable_crossover_bicep_curl',
     name: 'Cable Crossover Bicep Curl',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'biceps', role: 'primary', sortOrder: 1),
@@ -544,7 +544,7 @@ const generatedLifts = [
     liftKey: 'cable_crunch',
     name: 'Cable Crunch',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'abs', role: 'primary', sortOrder: 1),
@@ -554,7 +554,7 @@ const generatedLifts = [
     liftKey: 'cable_front_raise',
     name: 'Cable Front Raise',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'shoulders', role: 'primary', sortOrder: 1),
@@ -564,7 +564,7 @@ const generatedLifts = [
     liftKey: 'cable_internal_shoulder_rotation',
     name: 'Cable Internal Shoulder Rotation',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'shoulders', role: 'primary', sortOrder: 1),
@@ -574,7 +574,7 @@ const generatedLifts = [
     liftKey: 'cable_lateral_raise',
     name: 'Cable Lateral Raise',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'shoulders', role: 'primary', sortOrder: 1),
@@ -582,9 +582,9 @@ const generatedLifts = [
   ),
   SeedLift(
     liftKey: 'cable_machine_hip_abduction',
-    name: 'Cable Machine Hip Abduction',
+    name: 'cable_machine Hip Abduction',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'abductors', role: 'primary', sortOrder: 1),
@@ -593,9 +593,9 @@ const generatedLifts = [
   ),
   SeedLift(
     liftKey: 'cable_machine_hip_adduction',
-    name: 'Cable Machine Hip Adduction',
+    name: 'cable_machine Hip Adduction',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'adductors', role: 'primary', sortOrder: 1),
@@ -605,7 +605,7 @@ const generatedLifts = [
     liftKey: 'cable_pull_through',
     name: 'Cable Pull Through',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'shoulders', role: 'primary', sortOrder: 1),
@@ -615,7 +615,7 @@ const generatedLifts = [
     liftKey: 'cable_rear_delt_row',
     name: 'Cable Rear Delt Row',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'shoulders', role: 'primary', sortOrder: 1),
@@ -625,7 +625,7 @@ const generatedLifts = [
     liftKey: 'cable_wide_grip_seated_row',
     name: 'Cable Wide Grip Seated Row',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -722,7 +722,7 @@ const generatedLifts = [
     liftKey: 'close_grip_lat_pulldown',
     name: 'Close-Grip Lat Pulldown',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -787,7 +787,7 @@ const generatedLifts = [
     liftKey: 'crossbody_cable_triceps_extension',
     name: 'Crossbody Cable Triceps Extension',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'triceps', role: 'primary', sortOrder: 1),
@@ -1182,7 +1182,7 @@ const generatedLifts = [
     liftKey: 'face_pull',
     name: 'Face Pull',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'traps', role: 'primary', sortOrder: 1),
@@ -1383,7 +1383,7 @@ const generatedLifts = [
     liftKey: 'hanging_knee_raise',
     name: 'Hanging Knee Raise',
     scoreType: 'multiplier',
-    equipment: 'captains chair',
+    equipment: 'captains_chair',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'abs', role: 'primary', sortOrder: 1),
@@ -1393,7 +1393,7 @@ const generatedLifts = [
     liftKey: 'hanging_leg_raise',
     name: 'Hanging Leg Raise',
     scoreType: 'multiplier',
-    equipment: 'captains chair',
+    equipment: 'captains_chair',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'abs', role: 'primary', sortOrder: 1),
@@ -1403,7 +1403,7 @@ const generatedLifts = [
     liftKey: 'hanging_sit_up',
     name: 'Hanging Sit-Up',
     scoreType: 'bodyweight',
-    equipment: 'captains chair',
+    equipment: 'captains_chair',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'abs', role: 'primary', sortOrder: 1),
@@ -1413,7 +1413,7 @@ const generatedLifts = [
     liftKey: 'hanging_windshield_wiper',
     name: 'Hanging Windshield Wiper',
     scoreType: 'multiplier',
-    equipment: 'pull-up bar',
+    equipment: 'pull-up_bar',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'abs', role: 'primary', sortOrder: 1),
@@ -1443,7 +1443,7 @@ const generatedLifts = [
     liftKey: 'high_to_low_wood_chop_with_cable',
     name: 'High to Low Wood Chop with Cable',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'abs', role: 'primary', sortOrder: 1),
@@ -1556,7 +1556,7 @@ const generatedLifts = [
     liftKey: 'horizontal_wood_chop_with_cable',
     name: 'Horizontal Wood Chop with Cable',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'obliques', role: 'primary', sortOrder: 1),
@@ -1673,7 +1673,7 @@ const generatedLifts = [
     liftKey: 'jumping_muscle_up',
     name: 'Jumping Muscle-Up',
     scoreType: 'multiplier',
-    equipment: 'pull-up bar',
+    equipment: 'pull-up_bar',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -1781,7 +1781,7 @@ const generatedLifts = [
     liftKey: 'kneeling_ab_wheel_roll_out',
     name: 'Kneeling Ab Wheel Roll-Out',
     scoreType: 'multiplier',
-    equipment: 'ab wheel',
+    equipment: 'ab_wheel',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -1903,7 +1903,7 @@ const generatedLifts = [
     liftKey: 'lat_pulldown_with_pronated_grip',
     name: 'Lat Pulldown With Pronated Grip',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -1914,7 +1914,7 @@ const generatedLifts = [
     liftKey: 'lat_pulldown_with_supinated_grip',
     name: 'Lat Pulldown With Supinated Grip',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -2127,7 +2127,7 @@ const generatedLifts = [
     liftKey: 'muscle_up_bar',
     name: 'Muscle-Up (Bar)',
     scoreType: 'multiplier',
-    equipment: 'pull-up bar',
+    equipment: 'pull-up_bar',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'shoulders', role: 'primary', sortOrder: 1),
@@ -2149,7 +2149,7 @@ const generatedLifts = [
     liftKey: 'neutral_close_grip_lat_pulldown',
     name: 'Neutral Close-Grip Lat Pulldown',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'lats', role: 'primary', sortOrder: 1),
@@ -2214,7 +2214,7 @@ const generatedLifts = [
     liftKey: 'one_handed_cable_row',
     name: 'One-Handed Cable Row',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -2235,7 +2235,7 @@ const generatedLifts = [
     liftKey: 'one_handed_lat_pulldown',
     name: 'One-Handed Lat Pulldown',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'lats', role: 'primary', sortOrder: 1),
@@ -2297,7 +2297,7 @@ const generatedLifts = [
     liftKey: 'overhead_cable_triceps_extension',
     name: 'Overhead Cable Triceps Extension',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'triceps', role: 'primary', sortOrder: 1),
@@ -2608,7 +2608,7 @@ const generatedLifts = [
     liftKey: 'reverse_cable_fly',
     name: 'Reverse Cable Flyes',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'shoulders', role: 'primary', sortOrder: 1),
@@ -2742,7 +2742,7 @@ const generatedLifts = [
     liftKey: 'seated_cable_chest_fly',
     name: 'Seated Cable Chest Fly',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'chest', role: 'primary', sortOrder: 1),
@@ -3000,7 +3000,7 @@ const generatedLifts = [
     liftKey: 'straight_arm_lat_pulldown',
     name: 'Straight Arm Lat Pulldown',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -3010,7 +3010,7 @@ const generatedLifts = [
     liftKey: 'standing_cable_leg_extension',
     name: 'Standing Cable Leg Extension',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'quads', role: 'primary', sortOrder: 1),
@@ -3142,7 +3142,7 @@ const generatedLifts = [
     liftKey: 'toes_to_bar',
     name: 'Toes-To-Bar',
     scoreType: 'multiplier',
-    equipment: 'pull-up bar',
+    equipment: 'pull-up_bar',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'abs', role: 'primary', sortOrder: 1),
@@ -3152,7 +3152,7 @@ const generatedLifts = [
     liftKey: 'towel_pull_up',
     name: 'Towel Pull-Up',
     scoreType: 'bodyweight',
-    equipment: 'pull-up bar',
+    equipment: 'pull-up_bar',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -3293,7 +3293,7 @@ const generatedLifts = [
     liftKey: 'cable_lateral_raise_split_stance',
     name: 'Cable Lateral Raise (Split Stance)',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'shoulders', role: 'primary', sortOrder: 1),
@@ -3333,7 +3333,7 @@ const generatedLifts = [
     liftKey: 'delt_front_raise_cable',
     name: 'Delt Front Raise Cable',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'shoulders', role: 'primary', sortOrder: 1),
@@ -3353,7 +3353,7 @@ const generatedLifts = [
     liftKey: 'delt_rear_cross_cable_fly',
     name: 'Delt Rear Cross Cable Fly',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'shoulders', role: 'primary', sortOrder: 1),
@@ -3404,7 +3404,7 @@ const generatedLifts = [
     liftKey: 'lat_pulldown_unspecified_grip',
     name: 'Lat Pulldown (Unspecified Grip)',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'lats', role: 'primary', sortOrder: 1),
@@ -3466,7 +3466,7 @@ const generatedLifts = [
     liftKey: 'press_high_low_cable_fly',
     name: 'Press High Low Cable Fly',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'chest', role: 'primary', sortOrder: 1),
@@ -3498,7 +3498,7 @@ const generatedLifts = [
     liftKey: 'press_low_high_cable_fly',
     name: 'Press Low High Cable Fly',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'chest', role: 'primary', sortOrder: 1),
@@ -3559,7 +3559,7 @@ const generatedLifts = [
     liftKey: 'row_seated_cable',
     name: 'Row Seated Cable',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -3569,7 +3569,7 @@ const generatedLifts = [
     liftKey: 'row_seated_cable_single_arm',
     name: 'Row Seated Cable Single Arm',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -3579,7 +3579,7 @@ const generatedLifts = [
     liftKey: 'row_seated_cable_wide_grip',
     name: 'Row Seated Cable Wide Grip',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'back', role: 'primary', sortOrder: 1),
@@ -3655,7 +3655,7 @@ const generatedLifts = [
     liftKey: 'tricep_ext_overhead_cable',
     name: 'Tricep Ext OH Cable',
     scoreType: 'multiplier',
-    equipment: 'cable machine',
+    equipment: 'cable_machine',
     inputMode: 'standard',
     muscleGroups: [
       SeedLiftMuscleGroup(muscleKey: 'triceps', role: 'primary', sortOrder: 1),

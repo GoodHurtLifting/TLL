@@ -1,9 +1,9 @@
 lift_key,name,score_type,input_mode,equipment,primary_muscles,secondary_muscles,video_url,lift_info,needs_review,source_name
 air_squat,Air Squat,bodyweight,standard,bodyweight,quads,glutes,,,,Air Squat
 arnold_press,Arnold Press,multiplier,standard,barbell,shoulders,triceps,,,,Arnold Press
-assisted_chin_up,Assisted Chin-Up,bodyweight,standard,pull-up bar,back,biceps,,,,Assisted Chin-Up
+assisted_chin_up,Assisted Chin-Up,bodyweight,standard,pull-up_bar,back,biceps,,,,Assisted Chin-Up
 assisted_dip,Assisted Dip,bodyweight,standard,machine,chest,triceps,,,,Assisted Dip
-assisted_pull_up,Assisted Pull-Up,bodyweight,standard,pull-up bar,back,biceps,,,,Assisted Pull-Up
+assisted_pull_up,Assisted Pull-Up,bodyweight,standard,pull-up_bar,back,biceps,,,,Assisted Pull-Up
 back_extension,Back Extension,multiplier,standard,machine,back,hamstrings,,,,Back Extension
 banded_face_pull,Banded Face Pull,multiplier,standard,band,traps,shoulders,,,,Banded Face Pull
 banded_hip_march,Banded Hip March,multiplier,standard,band,hamstrings,,,,,Banded Hip March
@@ -45,18 +45,18 @@ bodyweight_leg_curl,Bodyweight Leg Curl,bodyweight,standard,bodyweight,hamstring
 box_jump,Box Jump,multiplier,standard,machine,quads,glutes,,,,Box Jump
 box_squat,Box Squat,multiplier,standard,barbell,quads,glutes,,,,Box Squat
 bulgarian_split_squat,Bulgarian Split Squat,multiplier,standard,dumbbell,quads,glutes,,,,Bulgarian Split Squat
-cable_chest_press,Cable Chest Press,multiplier,standard,cable machine,chest,triceps,,,,Cable Chest Press
-cable_close_grip_seated_row,Cable Close Grip Seated Row,multiplier,standard,cable machine,traps,shoulders,,,,Cable Close Grip Seated Row
-cable_crossover_bicep_curl,Cable Crossover Bicep Curl,multiplier,standard,cable machine,biceps,,,,,Cable Crossover Bicep Curl
-cable_crunch,Cable Crunch,multiplier,standard,cable machine,abs,,,,,Cable Crunch
-cable_front_raise,Cable Front Raise,multiplier,standard,cable machine,shoulders,,,,,Cable Front Raise
-cable_internal_shoulder_rotation,Cable Internal Shoulder Rotation,multiplier,standard,cable machine,shoulders,,,,,Cable Internal Shoulder Rotation
-cable_lateral_raise,Cable Lateral Raise,multiplier,standard,cable machine,shoulders,,,,,Cable Lateral Raise
-cable_machine_hip_abduction,Cable Machine Hip Abduction,multiplier,standard,cable machine,abductors,glutes,,,,Cable Machine Hip Abduction
-cable_machine_hip_adduction,Cable Machine Hip Adduction,multiplier,standard,cable machine,adductors,,,,,Cable Machine Hip Adduction
-cable_pull_through,Cable Pull Through,multiplier,standard,cable machine,shoulders,,,,,Cable Pull Through
-cable_rear_delt_row,Cable Rear Delt Row,multiplier,standard,cable machine,shoulders,,,,,Cable Rear Delt Row
-cable_wide_grip_seated_row,Cable Wide Grip Seated Row,multiplier,standard,cable machine,back,shoulders,,,,Cable Wide Grip Seated Row
+cable_chest_press,Cable Chest Press,multiplier,standard,cable_machine,chest,triceps,,,,Cable Chest Press
+cable_close_grip_seated_row,Cable Close Grip Seated Row,multiplier,standard,cable_machine,traps,shoulders,,,,Cable Close Grip Seated Row
+cable_crossover_bicep_curl,Cable Crossover Bicep Curl,multiplier,standard,cable_machine,biceps,,,,,Cable Crossover Bicep Curl
+cable_crunch,Cable Crunch,multiplier,standard,cable_machine,abs,,,,,Cable Crunch
+cable_front_raise,Cable Front Raise,multiplier,standard,cable_machine,shoulders,,,,,Cable Front Raise
+cable_internal_shoulder_rotation,Cable Internal Shoulder Rotation,multiplier,standard,cable_machine,shoulders,,,,,Cable Internal Shoulder Rotation
+cable_lateral_raise,Cable Lateral Raise,multiplier,standard,cable_machine,shoulders,,,,,Cable Lateral Raise
+cable_machine_hip_abduction,cable_machine Hip Abduction,multiplier,standard,cable_machine,abductors,glutes,,,,cable_machine Hip Abduction
+cable_machine_hip_adduction,cable_machine Hip Adduction,multiplier,standard,cable_machine,adductors,,,,,cable_machine Hip Adduction
+cable_pull_through,Cable Pull Through,multiplier,standard,cable_machine,shoulders,,,,,Cable Pull Through
+cable_rear_delt_row,Cable Rear Delt Row,multiplier,standard,cable_machine,shoulders,,,,,Cable Rear Delt Row
+cable_wide_grip_seated_row,Cable Wide Grip Seated Row,multiplier,standard,cable_machine,back,shoulders,,,,Cable Wide Grip Seated Row
 chair_squat,Chair Squat,bodyweight,standard,bodyweight,quads,glutes,,,,Chair Squat
 chest_to_bar,Chest to Bar,multiplier,standard,machine,back,shoulders,,,,Chest to Bar
 chin_up,Chin-Up,bodyweight,standard,bodyweight,back,biceps,,,,Chin-Up
@@ -67,13 +67,13 @@ clean_and_jerk,Clean and Jerk,multiplier,standard,barbell,shoulders,,,,muscle_gr
 close_grip_bench_press,Close-Grip Bench Press,multiplier,standard,barbell,chest,triceps,,,,Close-Grip Bench Press
 close_grip_chin_up,Close-Grip Chin-Up,bodyweight,standard,bodyweight,back,biceps,,,,Close-Grip Chin-Up
 close_grip_feet_up_bench_press,Close-Grip Feet-Up Bench Press,multiplier,standard,barbell,chest,triceps,,,,Close-Grip Feet-Up Bench Press
-close_grip_lat_pulldown,Close-Grip Lat Pulldown,multiplier,standard,cable machine,back,shoulders,,,,Close-Grip Lat Pulldown
+close_grip_lat_pulldown,Close-Grip Lat Pulldown,multiplier,standard,cable_machine,back,shoulders,,,,Close-Grip Lat Pulldown
 close_grip_push_up,Close-Grip Push-Up,bodyweight,standard,bodyweight,chest,triceps,,,,Close-Grip Push-Up
 concentration_curl,Concentration Curl,multiplier,standard,machine,biceps,,,,,Concentration Curl
 core_twist,Core Twist,multiplier,standard,machine,obliques,abs,,,,Core Twist
 cossack_squat,Cossack Squat,multiplier,standard,barbell,quads,back,,,,Cossack Squat
 crunch,Crunch,multiplier,standard,machine,abs,obliques,,,,Crunch
-crossbody_cable_triceps_extension,Crossbody Cable Triceps Extension,multiplier,standard,cable machine,triceps,,,,,Crossbody Cable Triceps Extension
+crossbody_cable_triceps_extension,Crossbody Cable Triceps Extension,multiplier,standard,cable_machine,triceps,,,,,Crossbody Cable Triceps Extension
 cuban_press,Cuban Press,multiplier,standard,barbell,shoulders,,,,,Cuban Press
 curtsy_lunge,Curtsy Lunge,multiplier,standard,machine,legs,,,,,Curtsy Lunge
 dead_bug,Dead Bug,multiplier,standard,machine,abs,,,,,Dead Bug
@@ -111,7 +111,7 @@ dumbbell_squat,Dumbbell Squat,multiplier,standard,dumbbell,quads,glutes,,,,Dumbb
 dumbbell_standing_triceps_extension,Dumbbell Standing Triceps Extension,multiplier,standard,dumbbell,triceps,,,,,Dumbbell Standing Triceps Extension
 dumbbell_walking_lunge,Dumbbell Walking Lunge,multiplier,standard,dumbbell,legs,glutes,,,,Dumbbell Walking Lunge
 eccentric_heel_drop,Eccentric Heel Drop,multiplier,standard,machine,calves,,,,,Eccentric Heel Drop
-face_pull,Face Pull,multiplier,standard,cable machine,traps,shoulders,,,,Face Pull
+face_pull,Face Pull,multiplier,standard,cable_machine,traps,shoulders,,,,Face Pull
 farmers_walk,Farmers Walk,multiplier,standard,dumbbell,forearms,,,,,Farmers Walk
 fat_bar_deadlift,Fat Bar Deadlift,multiplier,standard,barbell,glutes,,,,,Fat Bar Deadlift
 feet_up_bench_press,Feet-Up Bench Press,multiplier,standard,barbell,chest,,,,,Feet-Up Bench Press
@@ -130,13 +130,13 @@ hang_clean,Hang Clean,multiplier,standard,barbell,back,traps,,,,Hang Clean
 hang_power_clean,Hang Power Clean,multiplier,standard,barbell,legs,traps,,,,Hang Power Clean
 hang_power_snatch,Hang Power Snatch,multiplier,standard,barbell,legs,shoulders,,,,Hang Power Snatch
 hang_snatch,Hang Snatch,multiplier,standard,barbell,back,shoulders,,,,Hang Snatch
-hanging_knee_raise,Hanging Knee Raise,multiplier,standard,captains chair,abs,,,,,Hanging Knee Raise
-hanging_leg_raise,Hanging Leg Raise,multiplier,standard,captains chair,abs,,,,,Hanging Leg Raise
-hanging_sit_up,Hanging Sit-Up,bodyweight,standard,captains chair,abs,,,,,Hanging Sit-Up
-hanging_windshield_wiper,Hanging Windshield Wiper,multiplier,standard,pull-up bar,abs,,,,,Hanging Windshield Wiper
+hanging_knee_raise,Hanging Knee Raise,multiplier,standard,captains_chair,abs,,,,,Hanging Knee Raise
+hanging_leg_raise,Hanging Leg Raise,multiplier,standard,captains_chair,abs,,,,,Hanging Leg Raise
+hanging_sit_up,Hanging Sit-Up,bodyweight,standard,captains_chair,abs,,,,,Hanging Sit-Up
+hanging_windshield_wiper,Hanging Windshield Wiper,multiplier,standard,pull-up_bar,abs,,,,,Hanging Windshield Wiper
 heel_raise,Heel Raise,multiplier,standard,machine,calves,,,,,Heel Raise
 high_to_low_wood_chop_with_band,High to Low Wood Chop with Band,multiplier,standard,band,abs,,,,,High to Low Wood Chop with Band
-high_to_low_wood_chop_with_cable,High to Low Wood Chop with Cable,multiplier,standard,cable machine,abs,,,,,High to Low Wood Chop with Cable
+high_to_low_wood_chop_with_cable,High to Low Wood Chop with Cable,multiplier,standard,cable_machine,abs,,,,,High to Low Wood Chop with Cable
 hip_abduction_against_band,Hip Abduction Against Band,multiplier,standard,band,abductors,glutes,,,,Hip Abduction Against Band
 hip_abduction_machine,Hip Abduction Machine,multiplier,standard,machine,abductors,glutes,,,,Hip Abduction Machine
 hip_adduction_against_band,Hip Adduction Against Band,multiplier,standard,band,adductors,,,,,Hip Adduction Against Band
@@ -147,7 +147,7 @@ hip_thrust_with_band_around_knees,Hip Thrust With Band Around Knees,multiplier,s
 hollow_body_crunch,Hollow Body Crunch,bodyweight,standard,bodyweight,abs,,,,,Hollow Body Crunch
 hollow_hold,Hollow Hold,bodyweight,standard,bodyweight,abs,,,,,Hollow Hold
 horizontal_wood_chop_with_band,Horizontal Wood Chop with Band,multiplier,standard,band,obliques,abs,,,,Horizontal Wood Chop with Band
-horizontal_wood_chop_with_cable,Horizontal Wood Chop with Cable,multiplier,standard,cable machine,obliques,abs,,,,Horizontal Wood Chop with Cable
+horizontal_wood_chop_with_cable,Horizontal Wood Chop with Cable,multiplier,standard,cable_machine,obliques,abs,,,,Horizontal Wood Chop with Cable
 incline_bench_press,Incline Bench Press,multiplier,standard,barbell,chest,triceps,,,,Incline Bench Press
 incline_dumbbell_curl,Incline Dumbbell Curl,multiplier,standard,dumbbell,biceps,,,,,Incline Dumbbell Curl
 incline_dumbbell_press,Incline Dumbbell Press,multiplier,standard,dumbbell,chest,triceps,,,,Incline Dumbbell Press
@@ -158,7 +158,7 @@ jackknife_sit_up,Jackknife Sit-Up,bodyweight,standard,bodyweight,abs,,,,,Jackkni
 jefferson_curl,Jefferson Curl,multiplier,standard,machine,biceps,,,,,Jefferson Curl
 jerk,Jerk,multiplier,standard,barbell,shoulders,legs,,,,Jerk
 jumping_lunge,Jumping Lunge,multiplier,standard,floor,legs,,,,,Jumping Lunge
-jumping_muscle_up,Jumping Muscle-Up,multiplier,standard,pull-up bar,back,legs,,,,Jumping Muscle-Up
+jumping_muscle_up,Jumping Muscle-Up,multiplier,standard,pull-up_bar,back,legs,,,,Jumping Muscle-Up
 kettlebell_clean,Kettlebell Clean,multiplier,standard,kettlebell,back,legs,,,,Kettlebell Clean
 kettlebell_clean_and_jerk,Kettlebell Clean & Jerk,multiplier,standard,kettlebell,shoulders,traps,,,,Kettlebell Clean & Jerk
 kettlebell_clean_and_press,Kettlebell Clean & Press,multiplier,standard,kettlebell,back,shoulders,,,,Kettlebell Clean & Press
@@ -168,7 +168,7 @@ kettlebell_plank_pull_through,Kettlebell Plank Pull Through,multiplier,standard,
 kettlebell_swing,Kettlebell Swing,multiplier,standard,kettlebell,back,,,,,Kettlebell Swing
 kettlebell_thrusters,Kettlebell Thrusters,multiplier,standard,kettlebell,glutes,back,,,,Kettlebell Thrusters
 kettlebell_windmill,Kettlebell Windmill,multiplier,standard,kettlebell,back,abs,,,,Kettlebell Windmill
-kneeling_ab_wheel_roll_out,Kneeling Ab Wheel Roll-Out,multiplier,standard,ab wheel,back,,,,,Kneeling Ab Wheel Roll-Out
+kneeling_ab_wheel_roll_out,Kneeling Ab Wheel Roll-Out,multiplier,standard,ab_wheel,back,,,,,Kneeling Ab Wheel Roll-Out
 kneeling_incline_push_up,Kneeling Incline Push-Up,bodyweight,standard,bodyweight,chest,,,,,Kneeling Incline Push-Up
 kneeling_plank,Kneeling Plank,bodyweight,standard,bodyweight,abs,,,,,Kneeling Plank
 kneeling_push_up,Kneeling Push-Up,bodyweight,standard,bodyweight,chest,,,,,Kneeling Push-Up
@@ -180,8 +180,8 @@ landmine_press,Landmine Press,multiplier,standard,landmine,shoulders,,,,,Landmin
 landmine_squat,Landmine Squat,multiplier,standard,landmine,legs,back,,,,Landmine Squat
 lateral_bound,Lateral Bound,multiplier,standard,floor,legs,,,,,Lateral Bound
 lateral_walk_with_band,Lateral Walk With Band,multiplier,standard,band,legs,,,,,Lateral Walk With Band
-lat_pulldown_with_pronated_grip,Lat Pulldown With Pronated Grip,multiplier,standard,cable machine,back,biceps,,,,Lat Pulldown With Pronated Grip
-lat_pulldown_with_supinated_grip,Lat Pulldown With Supinated Grip,multiplier,standard,cable machine,back,traps,,,,Lat Pulldown With Supinated Grip
+lat_pulldown_with_pronated_grip,Lat Pulldown With Pronated Grip,multiplier,standard,cable_machine,back,biceps,,,,Lat Pulldown With Pronated Grip
+lat_pulldown_with_supinated_grip,Lat Pulldown With Supinated Grip,multiplier,standard,cable_machine,back,traps,,,,Lat Pulldown With Supinated Grip
 leg_extension,Leg Extension,multiplier,standard,machine,quads,,,,,Leg Extension
 leg_press,Leg Press,multiplier,standard,machine,legs,,,,,Leg Press
 leg_curl_on_ball,Leg Curl On Ball,multiplier,standard,machine,hamstrings,,,,,Leg Curl On Ball
@@ -202,23 +202,23 @@ machine_lateral_raise,Machine Lateral Raise,multiplier,standard,machine,shoulder
 machine_shoulder_press,Machine Shoulder Press,multiplier,standard,machine,shoulders,triceps,,,,Machine Shoulder Press
 monkey_row,Monkey Row,multiplier,standard,barbell,shoulders,,,,,Monkey Row
 mountain_climbers,Mountain Climbers,bodyweight,standard,bodyweight,abs,,,,,Mountain Climbers
-muscle_up_bar,Muscle-Up (Bar),multiplier,standard,pull-up bar,shoulders,arms,,,,Muscle-Up (Bar)
+muscle_up_bar,Muscle-Up (Bar),multiplier,standard,pull-up_bar,shoulders,arms,,,,Muscle-Up (Bar)
 muscle_up_rings,Muscle-Up (Rings),multiplier,standard,rings,shoulders,arms,,,,Muscle-Up (Rings)
-neutral_close_grip_lat_pulldown,Neutral Close-Grip Lat Pulldown,multiplier,standard,cable machine,lats,traps,,,,Neutral Close-Grip Lat Pulldown
+neutral_close_grip_lat_pulldown,Neutral Close-Grip Lat Pulldown,multiplier,standard,cable_machine,lats,traps,,,,Neutral Close-Grip Lat Pulldown
 nordic_hamstring_eccentric,Nordic Hamstring Eccentric,multiplier,standard,floor,hamstrings,glutes,,,,Nordic Hamstring Eccentric
 oblique_crunch,Oblique Crunch,multiplier,standard,machine,obliques,abs,,,,Oblique Crunch
 oblique_sit_up,Oblique Sit-Up,bodyweight,standard,bodyweight,obliques,abs,,,,Oblique Sit-Up
 one_arm_landmine_press,One-Arm Landmine Press,multiplier,standard,landmine,shoulders,triceps,,,,One-Arm Landmine Press
 one_handed_bar_hang,One-Handed Bar Hang,bodyweight,standard,bodyweight,forearms,,,,,One-Handed Bar Hang
-one_handed_cable_row,One-Handed Cable Row,multiplier,standard,cable machine,back,shoulders,,,,One-Handed Cable Row
+one_handed_cable_row,One-Handed Cable Row,multiplier,standard,cable_machine,back,shoulders,,,,One-Handed Cable Row
 one_handed_kettlebell_swing,One-Handed Kettlebell Swing,multiplier,standard,kettlebell,back,,,,,One-Handed Kettlebell Swing
-one_handed_lat_pulldown,One-Handed Lat Pulldown,multiplier,standard,cable machine,lats,back,,,,One-Handed Lat Pulldown
+one_handed_lat_pulldown,One-Handed Lat Pulldown,multiplier,standard,cable_machine,lats,back,,,,One-Handed Lat Pulldown
 one_legged_glute_bridge,One-Legged Glute Bridge,multiplier,standard,machine,glutes,hamstrings,,,,One-Legged Glute Bridge
 one_legged_hip_thrust,One-Legged Hip Thrust,multiplier,standard,machine,glutes,,,,,One-Legged Hip Thrust
 one_legged_leg_extension,One-Legged Leg Extension,multiplier,standard,machine,quads,,,,,One-Legged Leg Extension
 one_legged_lying_leg_curl,One-Legged Lying Leg Curl,multiplier,standard,machine,hamstrings,,,,,One-Legged Lying Leg Curl
 one_legged_seated_leg_curl,One-Legged Seated Leg Curl,multiplier,standard,machine,hamstrings,,,,,One-Legged Seated Leg Curl
-overhead_cable_triceps_extension,Overhead Cable Triceps Extension,multiplier,standard,cable machine,triceps,,,,,Overhead Cable Triceps Extension
+overhead_cable_triceps_extension,Overhead Cable Triceps Extension,multiplier,standard,cable_machine,triceps,,,,,Overhead Cable Triceps Extension
 overhead_press,Overhead Press,multiplier,standard,barbell,shoulders,,,,,Overhead Press
 pause_deadlift,Pause Deadlift,multiplier,standard,barbell,legs,glutes,,,,Pause Deadlift
 pause_squat,Pause Squat,multiplier,standard,barbell,legs,,,,,Pause Squat
@@ -248,7 +248,7 @@ resistance_band_chest_fly,Resistance Band Chest Fly,multiplier,standard,band,che
 resistance_band_curl,Resistance Band Curl,multiplier,standard,band,biceps,,,,,Resistance Band Curl
 resistance_band_lateral_raise,Resistance Band Lateral Raise,multiplier,standard,band,shoulders,,,,,Resistance Band Lateral Raise
 reverse_barbell_lunge,Reverse Barbell Lunge,multiplier,standard,barbell,quads,,,,,Reverse Barbell Lunge
-reverse_cable_fly,Reverse Cable Flyes,multiplier,standard,cable machine,shoulders,traps,,,,Reverse Cable Flyes
+reverse_cable_fly,Reverse Cable Flyes,multiplier,standard,cable_machine,shoulders,traps,,,,Reverse Cable Flyes
 reverse_dumbbell_fly,Reverse Dumbbell Flyes,multiplier,standard,dumbbell,shoulders,,,,,Reverse Dumbbell Flyes
 reverse_hyperextension,Reverse Hyperextension,multiplier,standard,machine,glutes,,,,,Reverse Hyperextension
 reverse_machine_fly,Reverse Machine Fly,multiplier,standard,machine,shoulders,,,,,Reverse Machine Fly
@@ -261,7 +261,7 @@ row_bent_over,Row Bent Over,multiplier,standard,barbell,back,,,,,Row Bent Over
 scap_pull_up,Scap Pull-Up,bodyweight,standard,pull-up_bar,back,,,,,Scap Pull-Up
 seal_row,Seal Row,multiplier,standard,barbell,back,,,,,Seal Row
 seated_barbell_overhead_press,Seated Barbell Overhead Press,multiplier,standard,barbell,shoulders,,,,,Seated Barbell Overhead Press
-seated_cable_chest_fly,Seated Cable Chest Fly,multiplier,standard,cable machine,chest,,,,,Seated Cable Chest Fly
+seated_cable_chest_fly,Seated Cable Chest Fly,multiplier,standard,cable_machine,chest,,,,,Seated Cable Chest Fly
 seated_dumbbell_shoulder_press,Seated Dumbbell Shoulder Press,multiplier,standard,dumbbell,shoulders,,,,,Seated Dumbbell Shoulder Press
 seated_leg_curl,Seated Leg Curl,multiplier,standard,machine,hamstrings,,,,,Seated Leg Curl
 seated_machine_row,Seated Machine Row,multiplier,standard,machine,back,,,,,Seated Machine Row
@@ -286,8 +286,8 @@ split_jerk,Split Jerk,multiplier,standard,machine,legs,shoulders,,,,Split Jerk
 squats,Squats,multiplier,standard,barbell,legs,back,,,,Squat
 squat_jerk,Squat Jerk,multiplier,standard,barbell,quads,shoulders,,,,Squat Jerk
 stiff_legged_deadlift,Stiff-Legged Deadlift,multiplier,standard,barbell,glutes,,,,,Stiff-Legged Deadlift
-straight_arm_lat_pulldown,Straight Arm Lat Pulldown,multiplier,standard,cable machine,back,,,,,Straight Arm Lat Pulldown
-standing_cable_leg_extension,Standing Cable Leg Extension,multiplier,standard,cable machine,quads,,,,,Standing Cable Leg Extension
+straight_arm_lat_pulldown,Straight Arm Lat Pulldown,multiplier,standard,cable_machine,back,,,,,Straight Arm Lat Pulldown
+standing_cable_leg_extension,Standing Cable Leg Extension,multiplier,standard,cable_machine,quads,,,,,Standing Cable Leg Extension
 standing_calf_raise,Standing Calf Raise,multiplier,standard,machine,calves,,,,,Standing Calf Raise
 standing_glute_kickback_in_machine,Standing Glute Kickback in Machine,multiplier,standard,machine,glutes,,,,,Standing Glute Kickback in Machine
 standing_glute_push_down,Standing Glute Push Down,multiplier,standard,machine,glutes,,,,,Standing Glute Push Down
@@ -300,8 +300,8 @@ superman_raise,Superman Raise,multiplier,standard,machine,back,,,,,Superman Rais
 t_bar_row,T-Bar Row,multiplier,standard,barbell,back,,,,,T-Bar Row
 tate_press,Tate Press,multiplier,standard,barbell,triceps,,,,,Tate Press
 tibialis_raise,Tibialis Raise,multiplier,standard,machine,calves,,,,,Tibialis Raise
-toes_to_bar,Toes-To-Bar,multiplier,standard,pull-up bar,abs,,,,,Toes-To-Bar
-towel_pull_up,Towel Pull-Up,bodyweight,standard,pull-up bar,back,,,,,Towel Pull-Up
+toes_to_bar,Toes-To-Bar,multiplier,standard,pull-up_bar,abs,,,,,Toes-To-Bar
+towel_pull_up,Towel Pull-Up,bodyweight,standard,pull-up_bar,back,,,,,Towel Pull-Up
 towel_row,Towel Row,multiplier,standard,barbell,back,,,,,Towel Row
 trap_bar_deadlift_with_high_handles,Trap Bar Deadlift With High Handles,multiplier,standard,trap_bar,glutes,,,,,Trap Bar Deadlift With High Handles
 trap_bar_deadlift_with_low_handles,Trap Bar Deadlift With Low Handles,multiplier,standard,trap_bar,glutes,,,,,Trap Bar Deadlift With Low Handles
@@ -315,42 +315,42 @@ zercher_squat,Zercher Squat,multiplier,standard,barbell,legs,back,,,,Zercher Squ
 zombie_squat,Zombie Squat,multiplier,standard,barbell,quads,,,,,Zombie Squat
 abs_ball_crunches,Abs Ball Crunches,multiplier,standard,machine,abs,,,,,Abs Ball Crunches
 back_extension_hamstrings_focused,Back Extension (Hamstrings Focused),multiplier,standard,machine,back,,,,,Back Extension (Hamstrings Focused)
-cable_lateral_raise_split_stance,Cable Lateral Raise (Split Stance),multiplier,standard,cable machine,shoulders,,,,,Cable Lateral Raise (Split Stance)
+cable_lateral_raise_split_stance,Cable Lateral Raise (Split Stance),multiplier,standard,cable_machine,shoulders,,,,,Cable Lateral Raise (Split Stance)
 calf_raises_landmine,Calf Raises Landmine,multiplier,standard,landmine,calves,,,,,Calf Raises Landmine
 calf_raises_smith,Calf Raises Smith,multiplier,standard,smith_machine,calves,,,,,Calf Raises Smith
 delt_forward_raises,Delt Forward Raises,multiplier,standard,machine,shoulders,,,,,Delt Forward Raises
-delt_front_raise_cable,Delt Front Raise Cable,multiplier,standard,cable machine,shoulders,,,,,Delt Front Raise Cable
+delt_front_raise_cable,Delt Front Raise Cable,multiplier,standard,cable_machine,shoulders,,,,,Delt Front Raise Cable
 delt_lateral_raises,Delt Lateral Raises,multiplier,standard,machine,shoulders,,,,,Delt Lateral Raises
-delt_rear_cross_cable_fly,Delt Rear Cross Cable Fly,multiplier,standard,cable machine,shoulders,,,,,Delt Rear Cross Cable Fly
+delt_rear_cross_cable_fly,Delt Rear Cross Cable Fly,multiplier,standard,cable_machine,shoulders,,,,,Delt Rear Cross Cable Fly
 dumbbell_kickback,Dumbbell Kickback,multiplier,standard,dumbbell,triceps,,,,,Dumbbell Kickback
 good_mornings_smith,Good Mornings Smith,multiplier,standard,smith_machine,back,hamstrings,,,,Good Mornings Smith
 hip_abduction_unspecified,Hip Abduction (Unspecified),multiplier,standard,machine,abductors,,,,,Hip Abduction (Unspecified)
 hip_adduction_unspecified,Hip Adduction (Unspecified),multiplier,standard,machine,adductors,,,,,Hip Adduction (Unspecified)
-lat_pulldown_unspecified_grip,Lat Pulldown (Unspecified Grip),multiplier,standard,cable machine,lats,back,,,,Lat Pulldown (Unspecified Grip)
+lat_pulldown_unspecified_grip,Lat Pulldown (Unspecified Grip),multiplier,standard,cable_machine,lats,back,,,,Lat Pulldown (Unspecified Grip)
 leg_press_single_leg,Leg Press Single Leg,multiplier,standard,barbell,quads,,,,,Leg Press Single Leg
 lunges_forward,Lunges Forward,multiplier,standard,machine,quads,,,,,Lunges Forward
 lunges_reverse,Lunges Reverse,multiplier,standard,machine,quads,,,,,Lunges Reverse
 pec_fly_dumbbell,Pec Flys DB,multiplier,standard,dumbbell,chest,,,,,Pec Flys DB
 press_dumbbell_overhead_alternating,Press DB Overhead Alternating,multiplier,standard,dumbbell,shoulders,triceps,,,,Press DB Overhead Alternating
-press_high_low_cable_fly,Press High Low Cable Fly,multiplier,standard,cable machine,chest,,,,,Press High Low Cable Fly
+press_high_low_cable_fly,Press High Low Cable Fly,multiplier,standard,cable_machine,chest,,,,,Press High Low Cable Fly
 press_incline,Press Incline,multiplier,standard,barbell,chest,triceps,,,,Press Incline
 press_incline_dumbbell,Press Incline DB,multiplier,standard,dumbbell,chest,triceps,,,,Press Incline DB
-press_low_high_cable_fly,Press Low High Cable Fly,multiplier,standard,cable machine,chest,,,,,Press Low High Cable Fly
+press_low_high_cable_fly,Press Low High Cable Fly,multiplier,standard,cable_machine,chest,,,,,Press Low High Cable Fly
 press_overhead,Press Overhead,multiplier,standard,barbell,shoulders,,,,,Press Overhead
 press_push_ups,Press Push Ups,multiplier,standard,barbell,chest,triceps,,,,Press Push Ups
 row_dumbbell_incline,Row DB Incline,multiplier,standard,dumbbell,back,,,,,Row DB Incline
 row_inverted,Row Inverted,multiplier,standard,barbell,back,,,,,Row Inverted
 row_reverse_grip_barbell,Row Reverse Grip Barbell,multiplier,standard,barbell,back,,,,,Row Reverse Grip Barbell
-row_seated_cable,Row Seated Cable,multiplier,standard,cable machine,back,,,,,Row Seated Cable
-row_seated_cable_single_arm,Row Seated Cable Single Arm,multiplier,standard,cable machine,back,,,,,Row Seated Cable Single Arm
-row_seated_cable_wide_grip,Row Seated Cable Wide Grip,multiplier,standard,cable machine,back,shoulders,,,,Row Seated Cable Wide Grip
+row_seated_cable,Row Seated Cable,multiplier,standard,cable_machine,back,,,,,Row Seated Cable
+row_seated_cable_single_arm,Row Seated Cable Single Arm,multiplier,standard,cable_machine,back,,,,,Row Seated Cable Single Arm
+row_seated_cable_wide_grip,Row Seated Cable Wide Grip,multiplier,standard,cable_machine,back,shoulders,,,,Row Seated Cable Wide Grip
 row_single_arm_dumbbell,Row Single Arm DB,multiplier,standard,dumbbell,back,shoulders,,,,Row Single Arm DB
 row_upright_wide_grip,Row Upright Wide Grip,multiplier,standard,barbell,traps,shoulders,,,,Row Upright Wide Grip
 shrugs_barbell,Shrugs Barbell,multiplier,standard,barbell,traps,shoulders,,,,Shrugs Barbell
 shrugs_dumbbell,Shrugs DB,multiplier,standard,dumbbell,traps,shoulders,,,,Shrugs DB
 shrugs_barbell_2,Shrugs BB,multiplier,standard,barbell,traps,shoulders,,,,Shrugs BB
 tricep_ext_french_press,Tricep Ext French Press,multiplier,standard,barbell,triceps,,,,,Tricep Ext French Press
-tricep_ext_overhead_cable,Tricep Ext OH Cable,multiplier,standard,cable machine,triceps,,,,,Tricep Ext OH Cable
+tricep_ext_overhead_cable,Tricep Ext OH Cable,multiplier,standard,cable_machine,triceps,,,,,Tricep Ext OH Cable
 tricep_ext_overhead_dumbbell,Tricep Ext OH DB,multiplier,standard,dumbbell,triceps,,,,,Tricep Ext OH DB
 tricep_ext_reverse_grip,Tricep Ext Reverse Grip,multiplier,standard,machine,triceps,,,,,Tricep Ext Reverse Grip
 tricep_kickbacks_dumbbell,Tricep Kickbacks DB,multiplier,standard,dumbbell,triceps,,,,,Tricep Kickbacks DB
